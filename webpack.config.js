@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const EslintPlugin = require('eslint-webpack-plugin')
+
 const fileName = (ext) => isDev ? `[name].[contenthash].${ext}` : `[name].[contenthash].${ext}`
 
 const {
@@ -22,13 +22,14 @@ const cssLoader = (loader) => {
 }
 const babelOptions = (loader) => {
     const loaders = {
-        loader: 'babel-loader',
+        loader: "babel-loader",
         options: {
             presets: ['@babel/preset-env'],
             plugins: [
                 '@babel/plugin-proposal-class-properties'
             ]
         },
+
     }
     if (loader) {
         loaders.options.presets.push(loader)
@@ -36,29 +37,34 @@ const babelOptions = (loader) => {
     return loaders
 }
 
-const getPath = (pathElem) => path.resolve(__dirname, pathElem)
-
+const jsLoaders = () => {
+    const loaders = [{
+        loader: 'babel-loader',
+        options: babelOptions()
+    }]
+    if (isDev) {
+        loaders.push('eslint-loader')
+    }
+    return loaders
+}
 
 module.exports = {
     mode: 'development',
     entry: {
-        main: ['@babel/polyfill', path.resolve(__dirname, 'src', 'index.jsx')],
+        main: ['@babel/polyfill', path.resolve(__dirname, 'src', 'index.js')],
     },
     output: {
         filename: fileName('js'),
         path: path.resolve(__dirname, 'dist')
     },
     plugins: [
-        isDev && new EslintPlugin({
-            extensions: ['js', 'jsx', 'ts']
-        }),
         new HtmlWebpackPlugin({
             template: './src/index.html'
         }),
         new CleanWebpackPlugin(),
         new CopyWebpackPlugin({
             patterns: [{
-                from: path.resolve(__dirname, 'src/assets/icons/favicon.ico'),
+                from: path.resolve(__dirname, 'src/favicon.ico'),
                 to: path.resolve(__dirname, 'dist')
             }, ],
         }),
@@ -97,8 +103,7 @@ module.exports = {
             {
                 test: /\.m?js$/,
                 exclude: /node_modules/,
-                // use: jsLoaders()
-                use: babelOptions()
+                use: jsLoaders()
             },
             {
                 test: /\.m?ts$/,
@@ -124,16 +129,6 @@ module.exports = {
         // extensions: ['js', 'jsx', 'ts', 'css', 'scss', 'png', 'jpeg', 'svg', 'webp', 'gif'],
         alias: {
             '@': path.resolve(__dirname, 'src'),
-            images: getPath('./src/assets/images/'),
-            icons: getPath('./src/assets/icons/'),
-            scss: getPath('./src/assets/scss/'),
-            atoms: getPath('./src/components/atoms/'),
-            moleculus: getPath('./src/components/moleculus/'),
-            organisms: getPath('./src/components/organisms/'),
-            template: getPath('./src/components/templates/'),
-            api: getPath('./src/api/'),
-            pages: getPath('./src/pages/'),
-            services: getPath('./src/services/'),
         }
     },
     optimization: {
