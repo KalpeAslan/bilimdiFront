@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const EslintPlugin = require('eslint-webpack-plugin')
+// const EslintPlugin = require('eslint-webpack-plugin')
 const fileName = (ext) => isDev ? `[name].[contenthash].${ext}` : `[name].[contenthash].${ext}`
 
 const {
@@ -49,16 +49,16 @@ module.exports = {
         path: path.resolve(__dirname, 'dist')
     },
     plugins: [
-        isDev && new EslintPlugin({
-            extensions: ['js', 'jsx', 'ts']
-        }),
+        // isDev && new EslintPlugin({
+        //     extensions: ['js', 'jsx', 'ts']
+        // }),
         new HtmlWebpackPlugin({
             template: './src/index.html'
         }),
         new CleanWebpackPlugin(),
         new CopyWebpackPlugin({
             patterns: [{
-                from: path.resolve(__dirname, 'src/assets/icons/favicon.ico'),
+                from: path.resolve(__dirname, 'src/assets/images/icons/favicon.ico'),
                 to: path.resolve(__dirname, 'dist')
             }, ],
         }),
@@ -119,19 +119,18 @@ module.exports = {
          */
         writeToDisk: isDev
     },
+    node: {
+        __dirname: false
+    },
     devtool: isDev && 'source-map',
     resolve: {
-        // extensions: ['js', 'jsx', 'ts', 'css', 'scss', 'png', 'jpeg', 'svg', 'webp', 'gif'],
+        extensions: ['.js', '.jsx', '.ts'],
         alias: {
             '@': path.resolve(__dirname, 'src'),
             images: getPath('./src/assets/images/'),
-            icons: getPath('./src/assets/icons/'),
+            icons: getPath('./src/assets/images/icons'),
             scss: getPath('./src/assets/scss/'),
-            atoms: getPath('./src/components/atoms/'),
-            moleculus: getPath('./src/components/moleculus/'),
-            organisms: getPath('./src/components/organisms/'),
-            template: getPath('./src/components/templates/'),
-            api: getPath('./src/api/'),
+            cpm: getPath('./src/components/'),
             pages: getPath('./src/pages/'),
             services: getPath('./src/services/'),
         }

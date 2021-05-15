@@ -1,12 +1,31 @@
-import 'scss/font.scss'
 import ReactDom from 'react-dom'
-import React from 'react'
-console.log('hello world')
-const ele = 77
-console.log(ele)
+import 'scss/font.scss'
+import './index.scss'
+import React from "react"
+import Blog from 'pages/blog/index.jsx'
+import {Switch, Route, BrowserRouter} from 'react-router-dom'
+import Calc from 'pages/calc/index.jsx'
+import Nav from 'cpm/nav/index.jsx'
+import {Container} from "@material-ui/core"
 
 function App() {
-    return <div><h1>Lets go develop! </h1></div >
+    return <React.Fragment>
+        <Nav />
+        <Container>
+            <BrowserRouter >
+                <Switch>
+                    <Route exact path={'/'}>
+                        <Calc></Calc>
+                    </Route>
+                    <Route path={'/blog'}>
+                        <Blog/>
+                    </Route>
+                </Switch>
+            </BrowserRouter >
+        </Container>
+    </React.Fragment>
 }
 
- ReactDom.render(<App/>,document.querySelector('#app'))
+
+
+ReactDom.render(<App/>,document.querySelector('#app'))
