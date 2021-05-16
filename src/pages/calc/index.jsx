@@ -1,5 +1,6 @@
 import React from "react"
-
 export default function (){
-    return <h1>Calculator page</h1>
+    return <React.Fragment>
+
+    </React.Fragment>
 }
