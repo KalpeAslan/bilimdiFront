@@ -10,9 +10,9 @@ export default class  {
             icon: HomeIcon
         },
         {
-            name: 'calc',
-            link: '/calc',
-            icon: 'calc'
+            name: 'subjectChosing',
+            link: '/subjectChosing',
+            icon: 'subjectChosing'
         },
     ]
 

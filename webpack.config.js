@@ -1,25 +1,13 @@
 const path = require('path')
 const isDev = process.env.NODE_ENV === 'development'
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
-const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-// const EslintPlugin = require('eslint-webpack-plugin')
+// const CopyWebpackPlugin = require('copy-webpack-plugin') So far favicons is not needed
 const fileName = (ext) => isDev ? `[name].[contenthash].${ext}` : `[name].[contenthash].${ext}`
 
 const {
     CleanWebpackPlugin
 } = require('clean-webpack-plugin')
 
-const cssLoader = (loader) => {
-    const loaders = [{
-        loader: MiniCssExtractPlugin.loader,
-    }, 'css-loader']
-    if (loader) {
-        loaders.push(loader)
-    }
-    return loaders
-}
 const babelOptions = (loader) => {
     const loaders = {
         loader: 'babel-loader',
@@ -36,7 +24,7 @@ const babelOptions = (loader) => {
     return loaders
 }
 
-const getPath = (pathElem) => path.resolve(__dirname, pathElem)
+const getPath = (pathElem) => path.join(__dirname , '/src/',pathElem)
 
 
 module.exports = {
@@ -56,30 +44,9 @@ module.exports = {
             template: './src/index.html'
         }),
         new CleanWebpackPlugin(),
-        new CopyWebpackPlugin({
-            patterns: [{
-                from: path.resolve(__dirname, 'src/assets/images/icons/favicon.ico'),
-                to: path.resolve(__dirname, 'dist')
-            }, ],
-        }),
-        new MiniCssExtractPlugin({
-            filename: fileName('css')
-        }),
-        new OptimizeCssAssetsWebpackPlugin()
     ],
     module: {
         rules: [
-            /**
-             * css files
-             */
-            {
-                test: /\.css$/,
-                use: cssLoader()
-            },
-            {
-                test: /\.scss$/,
-                use: cssLoader('sass-loader')
-            },
             /**
              * images and fonts
              */
@@ -113,7 +80,7 @@ module.exports = {
         ]
     },
     devServer: {
-        port: 4000,
+        port: 6060,
         /**
          * !This option needs only for development
          */
@@ -127,12 +94,16 @@ module.exports = {
         extensions: ['.js', '.jsx', '.ts'],
         alias: {
             '@': path.resolve(__dirname, 'src'),
-            images: getPath('./src/assets/images/'),
-            icons: getPath('./src/assets/images/icons'),
-            scss: getPath('./src/assets/scss/'),
-            cpm: getPath('./src/components/'),
-            pages: getPath('./src/pages/'),
-            services: getPath('./src/services/'),
+            assets: path.resolve(__dirname,'./src/assets/'),
+            fonts:  getPath('/assets/fonts/'),
+            images: getPath('/assets/images/'),
+            icons: getPath('/assets/images/icons'),
+            styles: getPath('/assets/styles/'),
+            cpm: getPath('/components/'),
+            store: getPath('/store'),
+            pages: getPath('/pages/'),
+            services: getPath('/services/'),
+            hooks: getPath('/hooks/'),
         }
     },
     optimization: {

@@ -1,6 +1,10 @@
-import React from "react"
-export default function (){
-    return <React.Fragment>
+import React, {Fragment} from "react"
+import Calc from './form'
+import AllProfs from './allProfs'
 
-    </React.Fragment>
+export default function (){
+    return <Fragment>
+        <Calc/>
+        <AllProfs/>
+    </Fragment>
 }
