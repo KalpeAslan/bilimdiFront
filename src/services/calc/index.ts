@@ -5,14 +5,15 @@ class Calc {
 
     private filteredBySubjProfs: Object = {}
 
-    getAllProfs() {
+    public getAllProfs() {
         return axios.get('http://localhost:4000/allProfs')
     }
 
-    getFilteredBySubjProfs(): Object {
+    private grants: Array<object> = []
+
+    public getFilteredBySubjProfs(allProfs: Object): Object {
         const firstSubject = calcStore.getState().calc.firstSubject
         const secondSubject = calcStore.getState().calc.secondSubject
-        const allProfs: Object = calcStore.getState().calc.allProfs
         this.filteredBySubjProfs = Object.entries(allProfs).reduce((acc, [subjectKey, profsValue]) => {
             if ((firstSubject !== null && secondSubject !== null)) {
                 const firstSubjectShort: string = firstSubject.short.toLowerCase()
@@ -35,16 +36,31 @@ class Calc {
         return this.filteredBySubjProfs
     }
 
-    // TODO фильтрация професии по баллам
-    // getFilteredByScore(score: number): Object {
-    //     const res =  Object.entries(this.filteredBySubjProfs).reduce((acc, [keySubj, profsValue]) => {
-    //         profsValue = profsValue.filter(prof => Number(prof.min) < score)
-    //         acc[keySubj] = profsValue
-    //         return acc
-    //     }, {})
-    //     console.log(res)
-    //     return res
-    // }
+
+    public getBranchesBySubjects(firstSubject: object, secondSubject: object) {
+        return axios.post(`${process.env.API_URL}/branches/postBranches`, {
+            full: firstSubject.short.toLowerCase() + secondSubject.short.toLowerCase(),
+            reverse: secondSubject.short.toLowerCase() + firstSubject.short.toLowerCase(),
+        }).then(data => {
+           return Object.keys(data.data)
+        })
+    }
+
+
+
+
+    /*
+    * Вычислить гранты*/
+
+    private computeGrantsByAreas(selectedAreas) {
+        return Object.keys(this._branches).map((key, i) => {
+            const area = this._branches[key]
+            //Проверка на выбранную область
+            if (key === selectedAreas) {
+                const score = calcStore.getState().calc.score
+            }
+        })
+    }
 }
 
 export default new Calc()

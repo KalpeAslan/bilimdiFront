@@ -1,9 +1,8 @@
 const path = require('path')
 const isDev = process.env.NODE_ENV === 'development'
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-// const CopyWebpackPlugin = require('copy-webpack-plugin') So far favicons is not needed
 const fileName = (ext) => isDev ? `[name].[contenthash].${ext}` : `[name].[contenthash].${ext}`
-
+const Dotenv = require('dotenv-webpack')
 const {
     CleanWebpackPlugin
 } = require('clean-webpack-plugin')
@@ -44,6 +43,9 @@ module.exports = {
             template: './src/index.html'
         }),
         new CleanWebpackPlugin(),
+        new Dotenv({
+            path:path.resolve(__dirname,'.env')
+        }),
     ],
     module: {
         rules: [
@@ -84,7 +86,7 @@ module.exports = {
         /**
          * !This option needs only for development
          */
-        writeToDisk: isDev
+        // writeToDisk: isDev
     },
     node: {
         __dirname: false
