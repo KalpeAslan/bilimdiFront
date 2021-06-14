@@ -1,21 +1,36 @@
 import React, {Fragment, useEffect, useMemo, useState} from 'react'
 import calc from 'services/calc'
-import ProfCard from './profCard'
+import ProfCard from 'cpm/card'
 import axios from "axios"
 import {useSelectorCalc} from "hooks/useSelector"
+import {useDispatch} from "react-redux"
+import {Box, Typography} from "@material-ui/core"
+import CardsGroup from 'cpm/cardsGroup'
+
+const allProfStyle = {
+    width: '100%',
+    display: 'grid',
+    'grid-template-columns': 'repeat(auto-fill, minmax(400px, 1fr))',
+    'grid-auto-columns': 'max-content',
+    'grid-gap': '30px',
+    'justify-content': 'space-between',
+}
+
 
 export default function () {
     const [profsStoreType, setProfsStoreType] = useState('allProfs')
     const [profsCount, setProfsCount] = useState(0)
     const [allProfs, setAllProfs] = useState({})
-    const [filteredByScore, setFilteredByScore] = useState({})
+    const allFilteredProfs = useSelectorCalc('allFilteredProfs')
+    // const [filteredByScore, setFilteredByScore] = useState({})
+    const dispatch = useDispatch()
     // get and set allProfs
-    useEffect(async()=>{
-        if(profsStoreType === 'allProfs') {
+    useEffect(async () => {
+        if (profsStoreType === 'allProfs') {
             const allProfsData = await calc.getAllProfs()
             setAllProfs(allProfsData.data)
         }
-    },[])
+    }, [])
 
     // watch to subject set
     const firstSubject = useSelectorCalc('firstSubject')
@@ -27,7 +42,7 @@ export default function () {
         } else {
             setProfsStoreType('allProfs')
         }
-    },[firstSubject, secondSubject])
+    }, [firstSubject, secondSubject])
 
 
     const score = useSelectorCalc('score')
@@ -37,10 +52,11 @@ export default function () {
                 const res = await axios.post('http://localhost:4000/getFilteredByScore', {
                     score,
                     filteredBySubjProfs: filteredBySubjProfs
-                }).then(data=>{
+                }).then(data => {
                     return data.data
                 })
-                setFilteredByScore(res)
+                dispatch({type: 'allFilteredProfs', value: res})
+                // setFilteredByScore(res)
                 setProfsStoreType('byScoreProfs')
             } else {
                 setProfsStoreType('bySubjProfs')
@@ -49,43 +65,56 @@ export default function () {
     }, [score])
 
 
-    const filteredBySubjProfs = useMemo(()=> {
+    const filteredBySubjProfs = useMemo(() => {
         return calc.getFilteredBySubjProfs(allProfs)
-    }, [firstSubject,secondSubject])
+    }, [firstSubject, secondSubject])
 
 
     // get profs by subject
-    const getProfsByState = useMemo(()=>{
-        let profsCountStart = 0;
-        const profs = ()=>{
-            switch (profsStoreType){
+    const getProfsByState = useMemo(() => {
+        let profsCountStart = 0
+        const profs = () => {
+            switch (profsStoreType) {
                 case 'allProfs':
                     return allProfs
                 case 'bySubjProfs':
                     return filteredBySubjProfs
                 case 'byScoreProfs':
-                    return filteredByScore
+                    return allFilteredProfs
                 default:
                     return allProfs
             }
         }
-
-        const res =  Object.entries(profs()).map(([subject, values]) => {
-            return values.map((value, i) => {
-                profsCountStart++;
-                return <ProfCard key={value.name + i} prof={value} subject={subject}/>
-            })
-        })
+        const res = <CardsGroup>
+            {Object.entries(profs()).map(([subject, values]) => {
+                return values.map((value, i) => {
+                    profsCountStart++
+                    const cardBody = <>
+                        <Typography variant="h6">
+                            Специальность: {value.name}
+                        </Typography>
+                        <Typography>
+                            Предмет:
+                            {subject}
+                        </Typography>
+                        <Typography>
+                            минимальный балл:
+                            {value.min}
+                        </Typography>
+                    </>
+                    return <ProfCard key={value.name + i} children={cardBody}/>
+                })
+            })}
+        </CardsGroup>
         setProfsCount(profsCountStart)
         return res
-    },[allProfs,filteredBySubjProfs, filteredByScore,profsStoreType])
-
+    }, [allProfs, filteredBySubjProfs, allFilteredProfs, profsStoreType])
 
 
     // TODO закешировать данные, ибо функция calc.getFilteredBySubjProfs() вызывается 2 раза
     return <Fragment>
-        <h2>{profsStoreType}</h2>
-        <h1>Всего специальнсотей: {profsCount}</h1>
+        <Typography variant="h4">{profsStoreType}</Typography>
+        <Typography variant="h4">Всего специальнсотей: {profsCount}</Typography>
         {
             getProfsByState
         }

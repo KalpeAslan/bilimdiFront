@@ -7,6 +7,8 @@ import subjectsAll from 'services/calc/subjectsAll'
 import classNames from "classnames"
 
 const allSubjects = subjectsAll('ru')
+const modalWidth = 500
+const md = 1000
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -15,6 +17,10 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'center',
     },
     wrapper: {
+        width: modalWidth,
+        [theme.breakpoints.down(md)]: {
+            width: '80vw',
+        },
         transition: 'transform 0.4s',
         overflowX: 'hidden',
         backgroundColor: theme.palette.background.paper,
@@ -23,14 +29,25 @@ const useStyles = makeStyles((theme) => ({
     },
     listWrapper: {
         transition: 'transform 0.4s',
-        transform: 'translateX(-320px)'
+        transform: `translateX(-${modalWidth}px)`,
+        [theme.breakpoints.down(md)]: {
+            transform: 'translateX(-80vw)',
+        },
     },
     list: {
-        width: 320,
+        width: modalWidth,
+        [theme.breakpoints.down(md)]: {
+            width: '80vw',
+        },
         overflowY: 'auto',
         maxHeight: '80vh',
     },
+    modalTitle: {
+        textAlign: 'center',
+        padding: theme.spacing(2)
+    }
 }))
+
 function getCombinedSubjects(firstSubject) {
     let combinedSubject = []
     firstSubject.share.forEach(shared => {
@@ -57,8 +74,8 @@ export default function ({openModal, setOpenModal}) {
     const selectedSubjectIndexToChange = useSelector(state => state.calc.selectedSubjectIndexToChange)
 
     useEffect(() => {
-        if(openModal === true && selectedSubjectIndexToChange !== null) {
-            if(selectedSubjectIndexToChange === 0) {
+        if (openModal === true && selectedSubjectIndexToChange !== null) {
+            if (selectedSubjectIndexToChange === 0) {
                 setShowNextSubject(false)
             }
         }
@@ -69,7 +86,7 @@ export default function ({openModal, setOpenModal}) {
         const combinedSubjects = getCombinedSubjects(subject)
         setSecondSubject(getCombinedSubjects(subject))
         dispatch({type: 'firstSubject', value: subject})
-        if(secondSubject !== null && !combinedSubjects.includes(secondSubject)) {
+        if (secondSubject !== null && !combinedSubjects.includes(secondSubject)) {
             dispatch({type: 'secondSubject', value: null})
         }
     }
@@ -79,11 +96,11 @@ export default function ({openModal, setOpenModal}) {
         dispatch({type: 'secondSubject', value: subject})
     }
 
-    const firstSubjectsView = <Box width={320} display="flex" flexDirection="column"
+    const firstSubjectsView = <Box display="flex" flexDirection="column"
                                    className={classNames({
                                        [classes.listWrapper]: showNextSubject
                                    })}>
-        <Typography variant="h5" style={{padding: 16}}>
+        <Typography variant="h5" className={classes.modalTitle}>
             Выбери первый предмет
         </Typography>
         <List className={classes.list}>
@@ -96,7 +113,7 @@ export default function ({openModal, setOpenModal}) {
     const secondSubjectsView = <Box display="flex" flexDirection="column" className={classNames({
         [classes.listWrapper]: showNextSubject
     })}>
-        <Typography variant="h5" style={{padding: 16}}>
+        <Typography variant="h5" className={classes.modalTitle}>
             Выбери второй предмет
         </Typography>
         <List className={classes.list}>
@@ -108,7 +125,7 @@ export default function ({openModal, setOpenModal}) {
     </Box>
 
     return <ModalFade setOpenModal={setOpenModal} openModal={openModal}>
-        <Box display="flex" width={320} className={classes.wrapper}>
+        <Box display="flex" className={classes.wrapper}>
             {firstSubjectsView}
             {secondSubjectsView}
         </Box>

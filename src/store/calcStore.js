@@ -1,21 +1,17 @@
-
-const emptyArr = ()=>{
+const emptyArr = () => {
     return Array.from({length: 4}).fill(null)
 }
 
-
-
-
 const defaultStore = {
     firstSubject: null,
-    secondSubject:null,
+    secondSubject: null,
     selectedSubjectIndexToChange: null,
     selectedStepIndex: 0,
     score: null,
     /**
      * Выбранные областьи/специльности
      */
-    selectedAreas:  emptyArr(),
+    selectedAreas: emptyArr(),
     allProfs: {},
     allBranches: [],
     allFilteredProfs: [],
@@ -27,15 +23,19 @@ const defaultStore = {
     selectedAreaListIndex: null,
     profs: emptyArr(),
     branches: emptyArr(),
+    selectedGrantCode: null,
+    allGrants: [],
 }
-export default (state = defaultStore, action)=>{
+export default (state = defaultStore, action) => {
     /*
     * Функция позволяющая устанавливать динамически состояние
     * stateName - данный параметр - имя свойства для изменения*/
     const setState = (stateName) => {
         return {...state, [stateName]: action.value}
     }
-    switch (action.type){
+
+
+    switch (action.type) {
         case 'firstSubject':
             return setState('firstSubject')
         case 'secondSubject':
@@ -56,8 +56,14 @@ export default (state = defaultStore, action)=>{
             return setState('selectedAreaIndex')
         case 'selectedAreaListIndex':
             return setState('selectedAreaListIndex')
+        case 'allFilteredProfs':
+            return setState('allFilteredProfs')
         case 'allBranches':
             return setState('allBranches')
+        case 'selectedGrantCode':
+            return setState('selectedGrantCode')
+        case 'allGrants':
+            return setState('allGrants')
         default:
             return state
     }

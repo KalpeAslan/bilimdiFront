@@ -83,6 +83,7 @@ module.exports = {
     },
     devServer: {
         port: 6060,
+        historyApiFallback: true,
         /**
          * !This option needs only for development
          */

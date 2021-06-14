@@ -7,7 +7,7 @@ export default function ({setOpenModal, openModal, children}){
         style={{
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center'
+            justifyContent: 'center',
         }}
         aria-describedby="transition-modal-description"
         open={openModal}

@@ -7,7 +7,6 @@ import {Tabs, Tab, Box, makeStyles} from "@material-ui/core"
 import Areas from "./Areas"
 import ModalFade from 'cpm/ModalFade'
 
-
 // TODO Area choosing tab
 
 const useStyles = makeStyles((theme) => ({
@@ -35,12 +34,6 @@ export default function () {
         })
 
     }, [])
-
-    useEffect(() => {
-        if (selectedAreaIndex === 1) {
-            calc.getBranchesBySubjects(firstSubject, secondSubject)
-        }
-    }, [selectedAreaIndex])
 
     const handleClick = (index) => {
         dispatch({type: 'selectedAreaListIndex', value: index})
@@ -80,7 +73,7 @@ export default function () {
         </Tabs>
         {getListByState()}
         <ModalFade setOpenModal={setOpenModal} openModal={openModal}>
-            <Box width={320} className={classes.wrapper}>
+            <Box width={320} maxHeight='80vh' className={classes.wrapper}>
                 <Areas selectedAreas={selectedAreaIndex === 0 ? branches : profs} setModal={setOpenModal}/>
             </Box>
         </ModalFade>

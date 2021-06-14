@@ -1,5 +1,8 @@
 import axios from "axios";
-import calcStore from 'store/'
+import store from 'store/'
+
+
+type grantsByBranches = Array<object>
 
 class Calc {
 
@@ -9,11 +12,9 @@ class Calc {
         return axios.get('http://localhost:4000/allProfs')
     }
 
-    private grants: Array<object> = []
-
     public getFilteredBySubjProfs(allProfs: Object): Object {
-        const firstSubject = calcStore.getState().calc.firstSubject
-        const secondSubject = calcStore.getState().calc.secondSubject
+        const firstSubject = store.getState().calc.firstSubject
+        const secondSubject = store.getState().calc.secondSubject
         this.filteredBySubjProfs = Object.entries(allProfs).reduce((acc, [subjectKey, profsValue]) => {
             if ((firstSubject !== null && secondSubject !== null)) {
                 const firstSubjectShort: string = firstSubject.short.toLowerCase()
@@ -42,24 +43,35 @@ class Calc {
             full: firstSubject.short.toLowerCase() + secondSubject.short.toLowerCase(),
             reverse: secondSubject.short.toLowerCase() + firstSubject.short.toLowerCase(),
         }).then(data => {
-           return Object.keys(data.data)
+            return data.data
         })
     }
 
 
-
-
     /*
-    * Вычислить гранты*/
+    * запрос на сервер для грантов*/
 
-    private computeGrantsByAreas(selectedAreas) {
-        return Object.keys(this._branches).map((key, i) => {
-            const area = this._branches[key]
-            //Проверка на выбранную область
-            if (key === selectedAreas) {
-                const score = calcStore.getState().calc.score
-            }
+    async getGrants(): Promise<grantsByBranches> {
+        const myStore = store.getState().calc
+        console.log(myStore.firstSubject.name.toLowerCase() + myStore.secondSubject.name.toLowerCase())
+        const selectedAreaIndex = myStore.selectedAreaIndex
+        const selectedAreas = myStore[selectedAreaIndex === 0 ? 'branches' : 'profs']
+        return await axios.post(`${process.env.API_URL}/branches/setProfsByBraches`, {
+            score: myStore.score,
+            branches: selectedAreas,
+            subjects: myStore.firstSubject.short.toLowerCase() + myStore.secondSubject.short.toLowerCase()
+        }).then(data => {
+            return data.data
         })
+    }
+
+    /**
+     * Func возвращающая информацию о гранте
+     * На оснавании его коде
+     * code - код Выбранной специальности
+     * */
+    public getAboutGrant(code: string): Object {
+        return store.getState().calc.allGrants[code]
     }
 }
 

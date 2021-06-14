@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useMemo, useState} from 'react'
 import {makeStyles, Stepper, Step, StepButton, Box, Button, Fade, List} from '@material-ui/core'
 import SubjectChoosing from './subjectChosing'
 import AreaChoosing from './areaChosing'
@@ -7,10 +7,18 @@ import {useDispatch} from "react-redux"
 import {useSelectorCalc} from "hooks/useSelector"
 import classNames from "classnames"
 import {Alert, AlertTitle} from "@material-ui/lab"
+import {Redirect} from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
+        padding: 20,
+        background: 'white',
+        minHeight: 300,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        border: '1px solid rgba(0, 0, 0, 0.12)'
     },
     alert: {
         position: 'absolute',
@@ -32,21 +40,22 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(1),
         marginBottom: theme.spacing(1),
     },
-}));
+}))
 
 function getSteps() {
-    return ['Выберите предмет', 'Введи свой балл', 'Выбери специлаьность'];
+    return ['Выберите предмет', 'Введи свой балл', 'Выбери специлаьность']
 }
-let interval;
 
-export default function() {
-    const classes = useStyles();
+let interval
+
+export default function () {
+    const classes = useStyles()
     const dispatch = useDispatch()
     const [isShowAlert, setIsShowAlert] = useState(false)
     const selectedStepIndex = useSelectorCalc('selectedStepIndex')
-    const steps = getSteps();
-    const getComponentByStep = () => {
-        switch (selectedStepIndex){
+    const steps = getSteps()
+    const getComponentByStep = useMemo(() => {
+        switch (selectedStepIndex) {
             case 0:
                 return <SubjectChoosing/>
             case 1:
@@ -54,7 +63,7 @@ export default function() {
             case 2:
                 return <AreaChoosing/>
         }
-    }
+    }, [selectedStepIndex])
 
     useEffect(() => {
         if (isShowAlert) {
@@ -66,7 +75,7 @@ export default function() {
         }
     }, [isShowAlert])
 
-    const setSelectedStepIndex = (index)=> {
+    const setSelectedStepIndex = (index) => {
         dispatch({type: 'selectedStepIndex', value: index})
     }
     /*
@@ -76,10 +85,13 @@ export default function() {
     const secondSubject = useSelectorCalc('secondSubject')
     const score = useSelectorCalc('score')
     const [alertForm, setAlertForm] = useState({})
+    const branches = useSelectorCalc('branches')
+    const profs = useSelectorCalc('profs')
+    const selectedAreaIndex = useSelectorCalc('selectedAreaIndex')
     const validateNextStepButton = () => {
-        switch (selectedStepIndex){
+        switch (selectedStepIndex) {
             case 0:
-                if(firstSubject === null || secondSubject === null) {
+                if (firstSubject === null || secondSubject === null) {
                     setAlertForm({
                         title: 'Заполните все предметы',
                         desc: 'Для участие в ЕНТ заполните все предметы'
@@ -88,14 +100,25 @@ export default function() {
                 }
                 return setSelectedStepIndex(selectedStepIndex + 1)
             case 1:
-                if(score < 50 || score > 150) {
+                if (score < 50 || score > 150) {
                     setAlertForm({
                         title: 'Введите балл от 50 до 150',
                         desc: 'Для получения гранта на ЕНТ, вам необходимо набрать от 50 баллов'
                     })
                     return setIsShowAlert(true)
                 }
-                setSelectedStepIndex(selectedStepIndex + 1)
+                return setSelectedStepIndex(selectedStepIndex + 1)
+            case 2:
+                const isBranch = selectedAreaIndex === 0
+                const selectedArea = isBranch ? branches : profs
+                if (selectedArea.every(area => area === null)) {
+                    setAlertForm({
+                        title: `Выберите хотя бы 1 ${isBranch ? 'область' : 'специальность'}`,
+                        desc: `Для получения гранта на ЕНТ, вам необходимо набрать от 50 баллов`
+                    })
+                    return setIsShowAlert(true)
+                }
+                return setSelectedStepIndex(selectedStepIndex + 1)
         }
     }
     const alertScore = <Fade in={isShowAlert} timeout={500} className={classNames(classes.alert)}>
@@ -108,29 +131,32 @@ export default function() {
         * Validating Steps
         * End*/
 
-
-
-
-     return (
+    return (
         <Box className={classes.root}>
             {alertScore}
-            <Stepper alternativeLabel nonLinear >
+            <Stepper alternativeLabel nonLinear>
                 {steps.map((label, index) => {
                     return <Step key={label}>
-                        <StepButton onClick={()=> setSelectedStepIndex(index)} active={selectedStepIndex === index }>
+                        <StepButton onClick={() => setSelectedStepIndex(index)} active={selectedStepIndex === index}>
                             {label}
                         </StepButton>
                     </Step>
                 })}
             </Stepper>
             <Box>
-                {getComponentByStep()}
+                {getComponentByStep}
             </Box>
             <Button variant="contained" color="primary" children="Следущий шаг"
                     onClick={validateNextStepButton}
-                    style={{width: '100%'}}/>
+                    style={{
+                        width: '100%',
+                        padding: '10px 0',
+                        fontSize: 20,
+                        fontWeight: 1000
+                    }}/>
+            {selectedStepIndex === 3 && <Redirect push to="/grants"/>}
         </Box>
-    );
+    )
 }
 
 

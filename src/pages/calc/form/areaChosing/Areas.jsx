@@ -18,13 +18,17 @@ export default function ({setModal, selectedAreas, setAreas}) {
         setModal(false)
     }
     const allBranches = useSelectorCalc('allBranches')
+    const allFilteredProfs = useSelectorCalc('allFilteredProfs')
 
     const areas = useMemo(()=>{
         if(selectedAreaIndex === 0){
             return allBranches
         }
-     return calc.getFilteredBySubjProfs(allProfs)
-    },[selectedAreaIndex, allBranches])
+        return allFilteredProfs[Object.keys(allFilteredProfs)[0]].map(prof=>{
+            return `${prof.code} ${prof.name}`
+        })
+     return allFilteredProfs
+    },[selectedAreaIndex, allBranches, allFilteredProfs])
     return <Fragment>
         <Typography>
             {selectedAreaIndex === 0 ? 'область' : 'специальность'}
