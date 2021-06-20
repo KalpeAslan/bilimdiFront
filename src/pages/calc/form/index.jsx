@@ -9,9 +9,11 @@ import classNames from "classnames"
 import {Alert, AlertTitle} from "@material-ui/lab"
 import {Redirect} from 'react-router-dom'
 
+const formWidth = '100%'
+
 const useStyles = makeStyles((theme) => ({
     root: {
-        width: '100%',
+        width: formWidth,
         padding: 20,
         background: 'white',
         minHeight: 300,
@@ -39,6 +41,11 @@ const useStyles = makeStyles((theme) => ({
     instructions: {
         marginTop: theme.spacing(1),
         marginBottom: theme.spacing(1),
+    },
+    calcInner: {
+        overflowX: 'hidden',
+        width: '100%',
+        transition: 'transform 0.4s'
     },
 }))
 
@@ -143,7 +150,7 @@ export default function () {
                     </Step>
                 })}
             </Stepper>
-            <Box>
+            <Box className={classes.calcInner}>
                 {getComponentByStep}
             </Box>
             <Button variant="contained" color="primary" children="Следущий шаг"

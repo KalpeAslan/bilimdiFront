@@ -10,7 +10,7 @@ export default function ({isShowAlert}) {
     }
     return <React.Fragment>
         {isMobile ? <TextField error={isShowAlert} type="number" value={score} onChange={(e)=> handleChange(e,e.target.value)}
-                               style={{width: '100%'}}
+                               style={{width: '100%', margin: '10px 0'}}
                                label="Введи свой балл" variant="outlined"/> :
         <Slider min={50} value={score} max={150} valueLabelDisplay="auto" onChange={handleChange}></Slider>}
     </React.Fragment>

@@ -8,15 +8,24 @@ import Areas from "./Areas"
 import ModalFade from 'cpm/ModalFade'
 
 // TODO Area choosing tab
+const modalWidth = 500
+const md = 1000
+
+
 
 const useStyles = makeStyles((theme) => ({
     wrapper: {
         transition: 'transform 0.4s',
+        width: modalWidth,
+        [theme.breakpoints.down(md)]: {
+            width: '80vw',
+        },
         overflowX: 'hidden',
         backgroundColor: theme.palette.background.paper,
         border: '2px solid #000',
         boxShadow: theme.shadows[5],
     },
+
 }))
 
 export default function () {

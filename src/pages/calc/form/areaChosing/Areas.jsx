@@ -1,9 +1,25 @@
 import React, {Fragment, useEffect, useMemo} from "react"
 import {useSelectorCalc} from "../../../../hooks/useSelector"
-import {ListItem, Typography} from "@material-ui/core"
+import {ListItem, makeStyles, Typography} from "@material-ui/core"
 import {useDispatch} from "react-redux"
+const modalWidth = 500
+const md = 1000
+const useStyles = makeStyles((theme)=>({
+    list: {
+        width: modalWidth,
+        [theme.breakpoints.down(md)]: {
+            width: '80vw',
+        },
+    },
+    modalTitle: {
+        textAlign: 'center',
+        padding: theme.spacing(2)
+    }
+}))
+
 
 export default function ({setModal, selectedAreas, setAreas}) {
+    const classes = useStyles()
     const selectedAreaIndex = useSelectorCalc('selectedAreaIndex')
     const selectedAreaListIndex = useSelectorCalc('selectedAreaListIndex')
     const dispatch = useDispatch()
@@ -30,12 +46,12 @@ export default function ({setModal, selectedAreas, setAreas}) {
      return allFilteredProfs
     },[selectedAreaIndex, allBranches, allFilteredProfs])
     return <Fragment>
-        <Typography>
-            {selectedAreaIndex === 0 ? 'область' : 'специальность'}
+        <Typography variant='h6' className={classes.modalTitle}>
+            {selectedAreaIndex === 0 ? 'Выбери область' : 'Выбери специальность'}
         </Typography>
         {areas.map(selectedArea => {
             if (selectedAreas.includes(selectedArea)) return null
-            return <ListItem onClick={() => handleClick(selectedArea)} button>
+            return <ListItem className={classes.list} onClick={() => handleClick(selectedArea)} button>
                 {selectedArea}
             </ListItem>
         })}

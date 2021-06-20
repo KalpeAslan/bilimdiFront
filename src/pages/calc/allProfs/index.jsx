@@ -5,6 +5,7 @@ import axios from "axios"
 import {useSelectorCalc} from "hooks/useSelector"
 import {useDispatch} from "react-redux"
 import {Box, Typography} from "@material-ui/core"
+import Info from 'cpm/info'
 import CardsGroup from 'cpm/cardsGroup'
 
 const allProfStyle = {
@@ -22,9 +23,7 @@ export default function () {
     const [profsCount, setProfsCount] = useState(0)
     const [allProfs, setAllProfs] = useState({})
     const allFilteredProfs = useSelectorCalc('allFilteredProfs')
-    // const [filteredByScore, setFilteredByScore] = useState({})
     const dispatch = useDispatch()
-    // get and set allProfs
     useEffect(async () => {
         if (profsStoreType === 'allProfs') {
             const allProfsData = await calc.getAllProfs()
@@ -32,7 +31,6 @@ export default function () {
         }
     }, [])
 
-    // watch to subject set
     const firstSubject = useSelectorCalc('firstSubject')
     const secondSubject = useSelectorCalc('secondSubject')
     useEffect(() => {
@@ -56,7 +54,6 @@ export default function () {
                     return data.data
                 })
                 dispatch({type: 'allFilteredProfs', value: res})
-                // setFilteredByScore(res)
                 setProfsStoreType('byScoreProfs')
             } else {
                 setProfsStoreType('bySubjProfs')
@@ -70,7 +67,6 @@ export default function () {
     }, [firstSubject, secondSubject])
 
 
-    // get profs by subject
     const getProfsByState = useMemo(() => {
         let profsCountStart = 0
         const profs = () => {
@@ -115,6 +111,7 @@ export default function () {
     return <Fragment>
         <Typography variant="h4">{profsStoreType}</Typography>
         <Typography variant="h4">Всего специальнсотей: {profsCount}</Typography>
+        <Info/>
         {
             getProfsByState
         }
