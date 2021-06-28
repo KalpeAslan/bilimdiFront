@@ -7,21 +7,24 @@ import {useDispatch} from "react-redux"
 import subjectsAll from 'services/calc/subjectsAll'
 import {useSelectorCalc} from "hooks/useSelector"
 
-export default function (){
+export default function () {
     const [openModal, setOpenModal] = useState(false)
     const dispatch = useDispatch()
     const firstSubject = useSelectorCalc('firstSubject')
     const secondSubject = useSelectorCalc('secondSubject')
-    const handleModal = (i)=> {
+    const handleModal = (i) => {
         setOpenModal(!openModal)
-        dispatch({type:'selectedSubjectIndexToChange', value: i})
+        dispatch({type: 'selectedSubjectIndexToChange', value: i})
     }
 
     return <React.Fragment>
         <List style={{width: '100%'}}>
-            {[firstSubject,secondSubject].map((subject,i) => {
-                if(!subject) return <ListItemArrow index={i} title='Предмет не выбран' click={()=>handleModal(i)}/>
-                return <SubjectItem index={i} name={subject.name} icon={subject.icon} click={handleModal} editable={true}/>
+            {[firstSubject, secondSubject].map((subject, i) => {
+                if (!subject) return <ListItemArrow index={i}
+                                                    title={i === 0 ? 'Выбери первый предмет' : 'Выбери второй предмет'}
+                                                    click={() => handleModal(i)}/>
+                return <SubjectItem index={i} name={subject.name} icon={subject.icon} click={handleModal}
+                                    editable={true}/>
             })
             }
         </List>

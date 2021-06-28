@@ -6,14 +6,29 @@ const theme = createMuiTheme({
     mixins: {
         size: (width, height = width) => {
             return {
-                width: `${width}px`,
-                height: `${height}px`
+                width: width,
+                height: height
             }
+        },
+    },
+    palette: {
+        background: {
+            default: 'white'
+        }
+    },
+    breakpoints: {
+        keys: [
+            'md',
+        ],
+        values: {
+            'md': 880,
         }
     },
     typography: {
         button: {
             textTransform: 'none',
+            fontFamily: '"FuturaPT", "Roboto", "Helvetica", "Arial", sans-serif',
+            fontSize: '1.25rem',
         },
         subtitle1: {
             color: '#333333',
@@ -40,8 +55,18 @@ const theme = createMuiTheme({
             fontSize: '2rem',
             fontWeight: 500,
         },
+        h3: {
+            fontFamily: '"FuturaPT", "Roboto", "Helvetica", "Arial", sans-serif',
+            fontWeight: 500,
+        },
         body2: {
+            fontFamily: '"FuturaPT", "Roboto", "Helvetica", "Arial", sans-serif',
             color: '#333333',
+        },
+        body1: {
+            fontFamily: '"FuturaPT", "Roboto", "Helvetica", "Arial", sans-serif',
+            color: '#333333',
+            fontSize: '1.2rem'
         },
         caption: {
             color: '#6D778E',
@@ -56,9 +81,6 @@ const theme = createMuiTheme({
                 '*': {
                     margin: 0,
                     padding: 0,
-                },
-                body: {
-                    background: 'white'
                 },
                 a: {
                     textDecoration: 'none',

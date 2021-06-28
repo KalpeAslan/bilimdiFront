@@ -1,3 +1,5 @@
+import {keys} from "@material-ui/core/styles/createBreakpoints"
+
 const emptyArr = () => {
     return Array.from({length: 4}).fill(null)
 }
@@ -25,6 +27,7 @@ const defaultStore = {
     branches: emptyArr(),
     selectedGrantCode: null,
     allGrants: [],
+    profsCount: 0,
 }
 export default (state = defaultStore, action) => {
     /*
@@ -33,38 +36,12 @@ export default (state = defaultStore, action) => {
     const setState = (stateName) => {
         return {...state, [stateName]: action.value}
     }
-
-
-    switch (action.type) {
-        case 'firstSubject':
-            return setState('firstSubject')
-        case 'secondSubject':
-            return setState('secondSubject')
-        case 'selectedSubjectIndexToChange':
-            return setState('selectedSubjectIndexToChange')
-        case 'selectedStepIndex':
-            return setState('selectedStepIndex')
-        case 'score':
-            return setState('score')
-        case 'profs':
-            return setState('profs')
-        case 'branches':
-            return setState('branches')
-        case 'allProfs':
-            return setState('allProfs')
-        case 'selectedAreaIndex':
-            return setState('selectedAreaIndex')
-        case 'selectedAreaListIndex':
-            return setState('selectedAreaListIndex')
-        case 'allFilteredProfs':
-            return setState('allFilteredProfs')
-        case 'allBranches':
-            return setState('allBranches')
-        case 'selectedGrantCode':
-            return setState('selectedGrantCode')
-        case 'allGrants':
-            return setState('allGrants')
-        default:
-            return state
-    }
+    return Object.keys(defaultStore).reduce((acc,key,index, arr)=>{
+        if(key === action.type) {
+            acc.res = setState(key)
+            arr.splice(1)
+            return acc
+        }
+        return acc
+    },{res: state}).res
 }

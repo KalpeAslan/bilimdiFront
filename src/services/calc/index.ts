@@ -53,7 +53,6 @@ class Calc {
 
     async getGrants(): Promise<grantsByBranches> {
         const myStore = store.getState().calc
-        console.log(myStore.firstSubject.name.toLowerCase() + myStore.secondSubject.name.toLowerCase())
         const selectedAreaIndex = myStore.selectedAreaIndex
         const selectedAreas = myStore[selectedAreaIndex === 0 ? 'branches' : 'profs']
         return await axios.post(`${process.env.API_URL}/branches/setProfsByBraches`, {
@@ -73,6 +72,19 @@ class Calc {
     public getAboutGrant(code: string): Object {
         return store.getState().calc.allGrants[code]
     }
+
+    public getProfsBySelectedBranch(allProfs: Object, selectedBranch: string): Array<object> {
+        return Object.keys(allProfs).reduce((acc, subjectKey) => {
+            Object.keys(allProfs[subjectKey]).forEach(branchKey => {
+                if (branchKey === selectedBranch) Object.entries(allProfs[subjectKey][branchKey]).forEach(([codeProf, prof]) => {
+                    acc.push(prof)
+                })
+            })
+            return acc
+        }, [])
+
+    }
+
 }
 
 export default new Calc()

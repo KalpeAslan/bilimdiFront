@@ -7,22 +7,30 @@ const useStyles = makeStyles((theme) => ({
     root: {
         position: 'relative',
         display: 'inline-block',
+        cursor: 'pointer',
         '&:hover': {
-            '& .selectedHover': {
+            '& .tooltipWrapper': {
                 display: 'inline-block !important',
-                width: 500,
-                height: 200,
-                background: 'red'
+                ...theme.mixins.size('450px', '250px'),
+                position: 'absolute',
+                left: '100%',
+                zIndex: 999,
+                '& .tooltip': {
+                    background: 'white',
+                    border: '1px solid black',
+                    borderRadius: '10px',
+                    textAlign:'center',
+                    position: 'absolute',
+                    padding: 10,
+                    top: 25,
+                    left: 25
+                }
             },
-            cursor: 'pointer'
         }
     },
-    selectedHover: {
-        display: 'none'
-    }
 }))
 
-export default function ({children, ...props}) {
+export default function ({children}) {
     const isModal = useMediaQuery('(max-width: 800px)')
     const [open, setOpen] = useState(false)
     const classes = useStyles()
@@ -32,15 +40,14 @@ export default function ({children, ...props}) {
     const handleClose = () => {
         setOpen(false)
     }
-
     return <>
-
         <Box className={classes.root}>
             <HelpOutlineIcon/>
-            <Paper style={{display: 'none'}} className='selectedHover' >
-                <h1>Hello world</h1>
-            </Paper>
+            <Box style={{display: 'none'}} className='tooltipWrapper'>
+                <Paper className='tooltip'>
+                    {children}
+                </Paper>
+            </Box>
         </Box>
-
     </>
 }

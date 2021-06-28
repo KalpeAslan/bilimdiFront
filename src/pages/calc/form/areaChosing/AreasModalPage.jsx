@@ -1,4 +1,4 @@
-import React, {Fragment} from "react"
+import React from "react"
 import {useSelectorCalc} from "../../../../hooks/useSelector"
 import {ListItem} from "@material-ui/core"
 
@@ -11,10 +11,10 @@ import {ListItem} from "@material-ui/core"
 export default function ({areas, setSelectedArea}){
     const selectedAreaIndex = useSelectorCalc('selectedAreaIndex')
     const selectedAreas = useSelectorCalc('selectedAreas')
-    return <Fragment>
+    return <>
         {/*Generate 4 pages*/}
         {selectedAreas.map(selectedArea=>{
             //Generate areas(branches/profs)
         })}
-    </Fragment>
+    </>
 }

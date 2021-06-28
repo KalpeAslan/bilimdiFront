@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
             marginRight: 20,
             background: theme.palette.primary.main,
             borderRadius: '50%',
-            ...theme.mixins.size(7),
+            ...theme.mixins.size('7px'),
         }
     }
 }))

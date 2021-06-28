@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect, useMemo} from "react"
+import React, { useMemo} from "react"
 import {useSelectorCalc} from "../../../../hooks/useSelector"
 import {ListItem, makeStyles, Typography} from "@material-ui/core"
 import {useDispatch} from "react-redux"
@@ -45,7 +45,7 @@ export default function ({setModal, selectedAreas, setAreas}) {
         })
      return allFilteredProfs
     },[selectedAreaIndex, allBranches, allFilteredProfs])
-    return <Fragment>
+    return <>
         <Typography variant='h6' className={classes.modalTitle}>
             {selectedAreaIndex === 0 ? 'Выбери область' : 'Выбери специальность'}
         </Typography>
@@ -55,5 +55,5 @@ export default function ({setModal, selectedAreas, setAreas}) {
                 {selectedArea}
             </ListItem>
         })}
-    </Fragment>
+    </>
 }

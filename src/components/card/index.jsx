@@ -6,7 +6,6 @@ import {Box, makeStyles} from "@material-ui/core"
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        minWidth: 275,
         transition: 'filter 0.4s',
         '&:hover': {
             cursor: 'pointer',

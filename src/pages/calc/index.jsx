@@ -1,18 +1,23 @@
-import React, {Fragment} from "react"
+import React, {useState} from "react"
 import Form from './form'
-import AllProfs from './allProfs'
+import AllProfs from '../../components/allProfs'
 import Grants from './grants'
-import Grant from "./grants/Grant"
+import Info from 'cpm/info'
 import {useSelectorCalc} from "../../hooks/useSelector"
+import {Typography} from "@material-ui/core"
 
 export default function () {
     const selectedStepIndex = useSelectorCalc('selectedStepIndex')
-    const res = <Fragment>
-        {selectedStepIndex !== 3 ? <Fragment>
+    const profsCount = useSelectorCalc('profsCount')
+    return <>
+        {selectedStepIndex !== 3 ? <>
             <Form/>
+            <Typography variant="h4" style={{display: 'inline-block', marginRight: 5}}>Специальности</Typography>
+            <Info/>
+            <Typography variant="h4"
+                        style={{display: 'inline-block', float: 'right'}}>{profsCount} Специальностей</Typography>
             <AllProfs/>
-        </Fragment> : <Grants/>}
-    </Fragment>
-    return res
+        </> : <Grants/>}
+    </>
 
 }

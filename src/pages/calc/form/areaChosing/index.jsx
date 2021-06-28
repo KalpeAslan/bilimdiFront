@@ -1,4 +1,4 @@
-import React, {useState, Fragment, useEffect} from 'react'
+import React, {useState, useEffect} from 'react'
 import {useSelectorCalc} from "hooks/useSelector"
 import calc from 'services/calc'
 import ListItemArrow from 'cpm/listElem'
@@ -66,7 +66,7 @@ export default function () {
         dispatch({type: 'selectedAreaIndex', value: newValue})
     }
 
-    return <Fragment>
+    return <>
         <Tabs
             style={{
                 width: '100%'
@@ -87,5 +87,5 @@ export default function () {
             </Box>
         </ModalFade>
 
-    </Fragment>
+    </>
 }

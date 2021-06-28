@@ -1,8 +1,8 @@
 import React, {useEffect, useMemo, useState} from 'react'
 import {makeStyles, Stepper, Step, StepButton, Box, Button, Fade, List} from '@material-ui/core'
-import SubjectChoosing from './subjectChosing'
+import SubjectChoosing from '../../../components/subjectChosing'
 import AreaChoosing from './areaChosing'
-import ScoreInput from './scoreInput/'
+import ScoreInput from '../../../components/scoreInput/'
 import {useDispatch} from "react-redux"
 import {useSelectorCalc} from "hooks/useSelector"
 import classNames from "classnames"

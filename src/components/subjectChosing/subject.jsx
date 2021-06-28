@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from "react"
 import SubjectItem from './subjectItem.jsx'
-import {List, makeStyles, Box, Typography} from "@material-ui/core"
+import {List, makeStyles, Box, Typography, IconButton} from "@material-ui/core"
 import ModalFade from 'cpm/modalFade'
 import {useDispatch, useSelector} from "react-redux"
 import subjectsAll from 'services/calc/subjectsAll'
-import classNames from "classnames"
+import {ArrowBackIos} from "@material-ui/icons"
 
 const allSubjects = subjectsAll('ru')
 const modalWidth = 500
@@ -21,11 +21,13 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.down(md)]: {
             width: '80vw',
         },
-        transition: 'transform 0.4s',
         overflowX: 'hidden',
         backgroundColor: theme.palette.background.paper,
         border: '2px solid #000',
         boxShadow: theme.shadows[5],
+        '*': {
+            transform: `translateX(-${modalWidth}px)`,
+        }
     },
     listWrapper: {
         transition: 'transform 0.4s',
@@ -70,19 +72,19 @@ export default function ({openModal, setOpenModal}) {
     const [secondSubjects, setSecondSubject] = useState([])
     const firstSubject = useSelector(state => state.calc.firstSubject)
     const secondSubject = useSelector(state => state.calc.secondSubject)
-    const [showNextSubject, setShowNextSubject] = useState(false)
+    const [translateX, setTranslateX] = useState(0)
     const selectedSubjectIndexToChange = useSelector(state => state.calc.selectedSubjectIndexToChange)
 
     useEffect(() => {
         if (openModal === true && selectedSubjectIndexToChange !== null) {
             if (selectedSubjectIndexToChange === 0) {
-                setShowNextSubject(false)
+                setTranslateX(0)
             }
         }
     }, [openModal])
 
     const clickFirstSubject = (subject) => {
-        setShowNextSubject(true)
+        setTranslateX(500)
         const combinedSubjects = getCombinedSubjects(subject)
         setSecondSubject(getCombinedSubjects(subject))
         dispatch({type: 'firstSubject', value: subject})
@@ -96,38 +98,41 @@ export default function ({openModal, setOpenModal}) {
         dispatch({type: 'secondSubject', value: subject})
     }
 
-    const firstSubjectsView = <Box display="flex" flexDirection="column"
-                                   className={classNames({
-                                       [classes.listWrapper]: showNextSubject
-                                   })}>
-        <Typography variant="h5" className={classes.modalTitle}>
-            Выбери первый предмет
-        </Typography>
-        <List className={classes.list}>
-            {allSubjects.map(subject => {
-                return <SubjectItem selected={firstSubject === subject} click={() => clickFirstSubject(subject)}
-                                    key={subject.name} name={subject.name} icon={subject.icon} button/>
-            })}
-        </List>
-    </Box>
-    const secondSubjectsView = <Box display="flex" flexDirection="column" className={classNames({
-        [classes.listWrapper]: showNextSubject
-    })}>
-        <Typography variant="h5" className={classes.modalTitle}>
-            Выбери второй предмет
-        </Typography>
-        <List className={classes.list}>
-            {secondSubjects.map(subject => {
-                return <SubjectItem selected={secondSubject === subject} click={() => clickSecondSubject(subject)}
-                                    key={subject.name} name={subject.name} icon={subject.icon} button/>
-            })}
-        </List>
-    </Box>
+    const clickBackButton = () => {
+        setTranslateX(0)
+    }
+
 
     return <ModalFade setOpenModal={setOpenModal} openModal={openModal}>
         <Box display="flex" className={classes.wrapper}>
-            {firstSubjectsView}
-            {secondSubjectsView}
+            <Box display="flex" flexDirection="column"  style={{transition: 'transform 0.4s',transform: `translateX(-${translateX}px)`}}>
+                <Typography variant="h5" className={classes.modalTitle}>
+                    Выбери первый предмет
+                </Typography>
+                <List className={classes.list}>
+                    {allSubjects.map(subject => {
+                        return <SubjectItem selected={firstSubject === subject} click={() => clickFirstSubject(subject)}
+                                            key={subject.name} name={subject.name} icon={subject.icon} button/>
+                    })}
+                </List>
+            </Box>
+            <Box display="flex" flexDirection="column" style={{transition: 'transform 0.4s', transform: `translateX(-${translateX}px)`}}>
+                <Box>
+                    <IconButton onClick={clickBackButton} style={{float: 'left'}}>
+                        <ArrowBackIos/>
+                    </IconButton>
+                    <Typography variant="h5" className={classes.modalTitle}>
+                        Выбери второй предмет
+                    </Typography>
+                </Box>
+                <List className={classes.list}>
+                    {secondSubjects.map(subject => {
+                        return <SubjectItem selected={secondSubject === subject}
+                                            click={() => clickSecondSubject(subject)}
+                                            key={subject.name} name={subject.name} icon={subject.icon} button/>
+                    })}
+                </List>
+            </Box>
         </Box>
     </ModalFade>
 }
