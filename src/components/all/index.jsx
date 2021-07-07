@@ -58,7 +58,7 @@ export default function ({selectedBranch, setAllBranches}) {
     const profsByState = useMemo(() => {
         let profsCount = 0
         const profsCards = profs.map((prof,i) => {
-            if(prof.hasOwnProperty('min') && score !== null && score < +prof.min.trim()) return null
+            if(prof.hasOwnProperty('min') && !!score && score < +prof.min.trim()) return null
             profsCount++
             const cardBody = <>
                 <Typography variant="h6">
