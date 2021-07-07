@@ -33,7 +33,6 @@ export default function ({selectedGrantCode}) {
 
 
     const getComponentByTabIndex = useMemo(() => {
-        console.log(grant)
         switch (selectedTabIndex) {
             case 0:
                 if (grant.univers.length === 0) return <Typography>No universities</Typography>

@@ -61,7 +61,7 @@ module.exports = {
                 use: ['file-loader']
             },
             /**
-             * JS files
+             * JS/TS files
              */
             {
                 test: /\.m?js$/,
@@ -71,6 +71,11 @@ module.exports = {
             },
             {
                 test: /\.m?ts$/,
+                exclude: /node_modules/,
+                use: babelOptions('@babel/preset-typescript')
+            },
+            {
+                test: /\.m?tsx$/,
                 exclude: /node_modules/,
                 use: babelOptions('@babel/preset-typescript')
             },

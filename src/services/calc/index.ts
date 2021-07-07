@@ -8,13 +8,14 @@ class Calc {
 
     private filteredBySubjProfs: Object = {}
 
-    public getAllProfs() {
+    public getAllProfs(): Promise<any> {
         return axios.get('http://localhost:4000/allProfs')
     }
 
     public getFilteredBySubjProfs(allProfs: Object): Object {
         const firstSubject = store.getState().calc.firstSubject
         const secondSubject = store.getState().calc.secondSubject
+        console.log(allProfs)
         this.filteredBySubjProfs = Object.entries(allProfs).reduce((acc, [subjectKey, profsValue]) => {
             if ((firstSubject !== null && secondSubject !== null)) {
                 const firstSubjectShort: string = firstSubject.short.toLowerCase()
@@ -39,14 +40,25 @@ class Calc {
 
 
     public getBranchesBySubjects(firstSubject: object, secondSubject: object) {
-        return axios.post(`${process.env.API_URL}/branches/postBranches`, {
-            full: firstSubject.short.toLowerCase() + secondSubject.short.toLowerCase(),
-            reverse: secondSubject.short.toLowerCase() + firstSubject.short.toLowerCase(),
-        }).then(data => {
-            return data.data
-        })
+
+
+        if (firstSubject || secondSubject)
+
+            return axios.post(`${process.env.API_URL}/branches/postBranches`, {
+                full: firstSubject.short.toLowerCase() + secondSubject.short.toLowerCase(),
+                reverse: secondSubject.short.toLowerCase() + firstSubject.short.toLowerCase(),
+            }).then(data => {
+                return data.data
+            })
     }
 
+
+    public _getBranchesBySubjects(firstSubject: string, secondSubject: string) {
+        return axios.post(`${process.env.API_URL}/branches/_getBranchesBySubjects`, {
+            firstSubject,
+            secondSubject
+        })
+    }
 
     /*
     * запрос на сервер для грантов*/
@@ -73,16 +85,19 @@ class Calc {
         return store.getState().calc.allGrants[code]
     }
 
-    public getProfsBySelectedBranch(allProfs: Object, selectedBranch: string): Array<object> {
+    public getProfsBySelectedBranch(allProfs: Object, selectedBranch: string, firstSubject: object | null, secondSubject: object | null): Array<object> {
         return Object.keys(allProfs).reduce((acc, subjectKey) => {
             Object.keys(allProfs[subjectKey]).forEach(branchKey => {
                 if (branchKey === selectedBranch) Object.entries(allProfs[subjectKey][branchKey]).forEach(([codeProf, prof]) => {
-                    acc.push(prof)
+                    if (!firstSubject && !secondSubject) return acc.push(prof)
+                    const firstSubjectShort = firstSubject.short.toLowerCase()
+                    if (firstSubject && !secondSubject && subjectKey.includes(firstSubjectShort)) return acc.push(prof)
+                    if (firstSubject && secondSubject && (subjectKey === firstSubjectShort + secondSubject.short.toLowerCase()
+                        || subjectKey === secondSubject.short.toLowerCase() + firstSubjectShort)) return acc.push(prof)
                 })
             })
             return acc
         }, [])
-
     }
 
 }

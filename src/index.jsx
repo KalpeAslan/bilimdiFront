@@ -25,13 +25,10 @@ function App() {
                         <Box className={classes.container}>
                         <Switch>
                             <Route exact path={'/'}>
-                                <Calc></Calc>
-                            </Route>
-                            <Route path="/blog">
-                                <Blog/>
-                            </Route>
-                            <Route path='/filter'>
                                 <Filter/>
+                            </Route>
+                            <Route path='/calc'>
+                                <Calc></Calc>
                             </Route>
                         </Switch>
                         </Box>

@@ -34,20 +34,22 @@ export default function () {
             background: 'white',
         }}>
             <Toolbar className={classNames(classes.toolbar, globalClasses.container)}>
-                <Typography variant="h5">
-                    Bilimdi
-                </Typography>
+                <Link to='/'>
+                    <Typography variant="h5">
+                        Bilimdi
+                    </Typography>
+                </Link>
                 <Box display='flex' justifyContent='space-between'>
                     <Link to='/'>
                         <Typography variant="h5" style={{marginRight: 30, cursor:"pointer"}}>
                             Найти грант
                         </Typography>
                     </Link>
-                    <Link to='filter'>
-                        <Typography variant="h5" style={{cursor:"pointer"}}>
-                            Калькулятор
-                        </Typography>
-                    </Link>
+                    {/*<Link to='filter'>*/}
+                    {/*    <Typography variant="h5" style={{cursor:"pointer"}}>*/}
+                    {/*        Калькулятор*/}
+                    {/*    </Typography>*/}
+                    {/*</Link>*/}
                 </Box>
             </Toolbar>
         </AppBar>

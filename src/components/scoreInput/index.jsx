@@ -9,14 +9,17 @@ export default function ({isShowAlert}) {
     const dispatch = useDispatch()
     const score = useSelector(state => state.calc.score)
     const handleChange = (event) => {
-        console.log(event.target.value)
-        dispatch({type: 'score', value: event.target.value})
+        event.target.value = event.target.value.slice(0, 3)
+        if(event.target.value.length !== 4) {
+            dispatch({type: 'score', value: event.target.value})
+        }
     }
     return <React.Fragment>
-        {!isMobile ? <TextField rowsMax={3} error={isShowAlert} type="number" value={score}
-                               onChange={(e) => handleChange(e, e.target.value)}
-                               style={{width: '100%', margin: '10px 0'}}
-                               label="Введи свой балл" variant="outlined"/> :
-            <input ref={ref} type='range' min={50} value={score} max={150} onChange={(event)=> handleChange(event)}></input>}
+        {!isMobile ? <TextField error={isShowAlert} type="number" value={score}
+                                onInput={handleChange}
+                                style={{width: '100%', margin: '10px 0'}}
+                                label="Введи свой балл" variant="outlined"/> :
+            <input type="range" min={50} value={score} max={150}
+                   onChange={(event) => handleChange(event)}></input>}
     </React.Fragment>
 }
