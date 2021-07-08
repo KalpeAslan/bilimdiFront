@@ -5,7 +5,7 @@ import ListItemArrow from 'cpm/listElem'
 import {useDispatch} from "react-redux"
 import {Tabs, Tab, Box, makeStyles} from "@material-ui/core"
 import Areas from "./Areas"
-import ModalFade from 'cpm/ModalFade'
+import ModalFade from 'cpm/modalFade'
 
 // TODO Area choosing tab
 const modalWidth = 500

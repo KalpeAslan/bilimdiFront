@@ -6,6 +6,7 @@ const Dotenv = require('dotenv-webpack')
 const {
     CleanWebpackPlugin
 } = require('clean-webpack-plugin')
+const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 
 const babelOptions = (loader) => {
     const loaders = {
@@ -39,6 +40,7 @@ module.exports = {
         // isDev && new EslintPlugin({
         //     extensions: ['js', 'jsx', 'ts']
         // }),
+        new CaseSensitivePathsPlugin(),
         new HtmlWebpackPlugin({
             template: './src/index.html'
         }),
