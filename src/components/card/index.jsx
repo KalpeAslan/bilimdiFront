@@ -27,7 +27,6 @@ export default function ({click, children, style}) {
                 <Box>
                     {children}
                 </Box>
-                <NavigateNextIcon/>
             </CardContent>
         </Card>
     )

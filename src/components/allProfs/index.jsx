@@ -136,7 +136,7 @@ export default function ({selectedBranch}) {
 
 
     // TODO закешировать данные, ибо функция calc.getFilteredBySubjProfs() вызывается 2 раза
-    return <Grid container spacing={3}>
+    return <Grid container spacing={3} >
         {loading && <Box display="flex" flexWrap="wrap" justifyContent="space-between">
             {[1, 2, 3, 4].map(_ => <Skeleton style={{marginRight: 20}} width={400} height={180}/>)}
         </Box>}
