@@ -7,7 +7,7 @@
     "webpack": "cross-env NODE_ENV=development webpack --mode development",
     "watch": "cross-env NODE_ENV=development webpack --watch --mode development",
     "dev": "cross-env NODE_ENV=development webpack serve --mode development --open",
-    "start": "cross-env NODE_ENV=production webpack serve --mode production --open",
+    "start": "cross-env NODE_ENV=production webpack serve --mode production --open"
   },
   "browserList": "> 0.25%, not-dead",
   "author": "",
