@@ -1,10 +1,9 @@
 import ReactDom from 'react-dom'
 import React from "react"
-import Blog from 'pages/blog'
-import {Switch, Route, BrowserRouter} from 'react-router-dom'
+import {Switch, Route, BrowserRouter ,HashRouter } from 'react-router-dom'
 import Calc from 'pages/calc/index.jsx'
 import Nav from 'cpm/nav/index.jsx'
-import {Box, CssBaseline, makeStyles} from "@material-ui/core"
+import {Box, CssBaseline} from "@material-ui/core"
 import {Provider} from "react-redux"
 import store from 'store/index'
 import {ThemeProvider} from "@material-ui/core"
@@ -23,14 +22,14 @@ function App() {
                     <BrowserRouter>
                         <Nav/>
                         <Box className={classes.container}>
-                        <Switch>
+                        <HashRouter>
                             <Route exact path={'/'}>
                                 <Filter/>
                             </Route>
                             <Route path='/calc'>
                                 <Calc></Calc>
                             </Route>
-                        </Switch>
+                        </HashRouter>
                         </Box>
                     </BrowserRouter>
             </ClassesProvider>
