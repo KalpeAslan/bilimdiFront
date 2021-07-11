@@ -65,7 +65,7 @@ export default function ({selectedBranch, setAllBranches}) {
                     Специальность: {prof.name}
                 </Typography>
                 <Typography>
-                    Предмет:
+                    Предмет: {prof.subjects}
                 </Typography>
                 <Typography>
                     минимальный балл:
