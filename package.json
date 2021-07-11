@@ -51,6 +51,7 @@
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "*",
     "axios": "^0.21.1",
+    "case-sensitive-paths-webpack-plugin": "^2.4.0",
     "classnames": "^2.3.1",
     "express": "^4.17.1",
     "normalize.css": "^8.0.1",
