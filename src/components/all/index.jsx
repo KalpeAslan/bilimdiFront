@@ -9,12 +9,17 @@ const ProfCard = React.lazy(() => import('cpm/card'))
 import {fetchGrantsHttp} from "../../http/fetchGrantsHttp"
 
 export default function ({selectedBranch, setAllBranches}) {
-    const [profs, setProfs] = useState([])
+    const profs = useSelectorCalc('tempProfs')
     const [loading, setLoading] = useState(false)
-    const dispatch = useDispatch()
     const firstSubject = useSelectorCalc('firstSubject')
     const secondSubject = useSelectorCalc('secondSubject')
     const score = useSelectorCalc('score')
+    const dispatch = useDispatch()
+
+
+    const setProfs = useCallback((profs) => {
+        dispatch({type: 'tempProfs', value: profs})
+    },[])
 
     useEffect(() => {
         fetchGrantsHttp.getAllProfs().then(data => {

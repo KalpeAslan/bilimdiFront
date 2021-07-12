@@ -28,6 +28,7 @@ const defaultStore = {
     selectedGrantCode: null,
     allGrants: [],
     profsCount: 0,
+    tempProfs: []
 }
 export default (state = defaultStore, action) => {
     /*

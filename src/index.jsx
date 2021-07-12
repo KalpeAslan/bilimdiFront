@@ -1,26 +1,33 @@
 import ReactDom from 'react-dom'
 import React from "react"
-import {Switch, Route, BrowserRouter ,HashRouter } from 'react-router-dom'
+import {Route, BrowserRouter ,HashRouter } from 'react-router-dom'
 import Calc from 'pages/calc/index.jsx'
-import Nav from 'cpm/nav/index.jsx'
 import {Box, CssBaseline} from "@material-ui/core"
 import {Provider} from "react-redux"
 import store from 'store/index'
 import {ThemeProvider} from "@material-ui/core"
 import {ClassesProvider} from "./contexts/ClassesProvider"
+import {LocaleProvider} from "./contexts/LocaleProvider"
 import theme from "./themes/main"
 import {useStyles} from "./themes/classes"
 import Filter from 'pages/filter'
+import {Skeleton} from "@material-ui/lab"
 
+
+const Nav = React.lazy(() => import('cpm/nav'))
+const BottomBanner = React.lazy(() => import('cpm/bottomBanner'))
 
 function App() {
     const classes = useStyles()
     return <Provider store={store}>
         <ThemeProvider theme={theme}>
             <ClassesProvider value={classes}>
+                <LocaleProvider>
                 <CssBaseline/>
                     <BrowserRouter>
-                        <Nav/>
+                        <React.Suspense fallback={<Skeleton width='100%' height={70}/>}>
+                            <Nav/>
+                        </React.Suspense>
                         <Box className={classes.container}>
                         <HashRouter>
                             <Route exact path={'/'}>
@@ -31,7 +38,11 @@ function App() {
                             </Route>
                         </HashRouter>
                         </Box>
+                        <React.Suspense fallback={<Skeleton width='100%' height={70}></Skeleton>}>
+                            <BottomBanner/>
+                        </React.Suspense>
                     </BrowserRouter>
+                </LocaleProvider>
             </ClassesProvider>
         </ThemeProvider>
     </Provider>

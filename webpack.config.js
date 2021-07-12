@@ -8,7 +8,7 @@ const {
 } = require('clean-webpack-plugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 
-const babelOptions = (loader) => {
+const babelOptions = (...presets) => {
     const loaders = {
         loader: 'babel-loader',
         options: {
@@ -18,8 +18,10 @@ const babelOptions = (loader) => {
             ]
         },
     }
-    if (loader) {
-        loaders.options.presets.push(loader)
+    if (presets) {
+        presets.forEach(preset => {
+            loaders.options.presets.push(preset)
+        })
     }
     return loaders
 }
@@ -72,6 +74,11 @@ module.exports = {
                 use: babelOptions()
             },
             {
+                test: /\.m?jsx$/,
+                exclude: /node_modules/,
+                use: babelOptions('@babel/preset-react')
+            },
+            {
                 test: /\.m?ts$/,
                 exclude: /node_modules/,
                 use: babelOptions('@babel/preset-typescript')
@@ -79,13 +86,9 @@ module.exports = {
             {
                 test: /\.m?tsx$/,
                 exclude: /node_modules/,
-                use: babelOptions('@babel/preset-typescript')
+                use: babelOptions('@babel/preset-react', '@babel/preset-typescript')
             },
-            {
-                test: /\.m?jsx$/,
-                exclude: /node_modules/,
-                use: babelOptions('@babel/preset-react')
-            }
+
         ]
     },
     devServer: {
@@ -101,7 +104,7 @@ module.exports = {
     },
     devtool: isDev && 'source-map',
     resolve: {
-        extensions: ['.js', '.jsx', '.ts'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
         alias: {
             '@': path.resolve(__dirname, 'src'),
             assets: path.resolve(__dirname,'./src/assets/'),

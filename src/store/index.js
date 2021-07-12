@@ -1,9 +1,9 @@
 import {combineReducers,createStore} from "redux";
-import calcStore from './calcStore'
+import calcReducer from './calcReducer'
 import {composeWithDevTools} from "redux-devtools-extension"
 
 const rootReducer = combineReducers({
-    calc:calcStore
+    calc:calcReducer
 })
 
 export default createStore(rootReducer,composeWithDevTools())
