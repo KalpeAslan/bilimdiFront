@@ -108,6 +108,7 @@ module.exports = {
         alias: {
             '@': path.resolve(__dirname, 'src'),
             assets: path.resolve(__dirname,'./src/assets/'),
+            locale: path.resolve(__dirname, './src/components/locale'),
             fonts:  getPath('/assets/fonts/'),
             images: getPath('/assets/images/'),
             icons: getPath('/assets/images/icons'),

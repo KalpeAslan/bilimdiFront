@@ -9,39 +9,34 @@ import {ThemeProvider} from "@material-ui/core"
 import {ClassesProvider} from "./contexts/ClassesProvider"
 import {LocaleProvider} from "./contexts/LocaleProvider"
 import theme from "./themes/main"
-import {useStyles} from "./themes/classes"
 import Filter from 'pages/filter'
 import {Skeleton} from "@material-ui/lab"
-
+import {Consultation} from "./pages/consultation/Consultation"
 
 const Nav = React.lazy(() => import('cpm/nav'))
 const BottomBanner = React.lazy(() => import('cpm/bottomBanner'))
 
+
 function App() {
-    const classes = useStyles()
     return <Provider store={store}>
         <ThemeProvider theme={theme}>
-            <ClassesProvider value={classes}>
+            <ClassesProvider>
                 <LocaleProvider>
                 <CssBaseline/>
-                    <BrowserRouter>
+                    <HashRouter>
                         <React.Suspense fallback={<Skeleton width='100%' height={70}/>}>
                             <Nav/>
                         </React.Suspense>
-                        <Box className={classes.container}>
-                        <HashRouter>
-                            <Route exact path={'/'}>
-                                <Filter/>
-                            </Route>
-                            <Route path='/calc'>
-                                <Calc></Calc>
-                            </Route>
-                        </HashRouter>
-                        </Box>
+                        <Route exact path={'/'}>
+                            <Consultation/>
+                        </Route>
+                        <Route exact path='/filter'>
+                            <Filter/>
+                        </Route>
                         <React.Suspense fallback={<Skeleton width='100%' height={70}></Skeleton>}>
-                            <BottomBanner/>
+                            {/*<BottomBanner/>*/}
                         </React.Suspense>
-                    </BrowserRouter>
+                    </HashRouter>
                 </LocaleProvider>
             </ClassesProvider>
         </ThemeProvider>

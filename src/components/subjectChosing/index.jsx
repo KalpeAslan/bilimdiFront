@@ -6,6 +6,7 @@ import ListItemArrow from 'cpm/listElem'
 import {useDispatch} from "react-redux"
 import subjectsAll from 'services/calc/subjectsAll'
 import {useSelectorCalc} from "hooks/useSelector"
+import {useTranslate} from "../../hooks/useLocale"
 
 export default function () {
     const [openModal, setOpenModal] = useState(false)
@@ -21,7 +22,7 @@ export default function () {
         <List style={{width: '100%'}}>
             {[firstSubject, secondSubject].map((subject, i) => {
                 if (!subject) return <ListItemArrow index={i}
-                                                    title={i === 0 ? 'Выбери первый предмет' : 'Выбери второй предмет'}
+                                                    title={i === 0 ? useTranslate('Выбери первый предмет') : useTranslate('Выбери второй предмет')}
                                                     click={() => handleModal(i)}/>
                 return <SubjectItem index={i} name={subject.name} icon={subject.icon} click={handleModal}
                                     editable={true}/>

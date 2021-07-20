@@ -7,6 +7,7 @@ import {Skeleton} from "@material-ui/lab"
 
 const ProfCard = React.lazy(() => import('cpm/card'))
 import {fetchGrantsHttp} from "../../http/fetchGrantsHttp"
+import {useLocale} from "../../hooks/useLocale"
 
 export default function ({selectedBranch, setAllBranches}) {
     const profs = useSelectorCalc('tempProfs')
@@ -15,14 +16,14 @@ export default function ({selectedBranch, setAllBranches}) {
     const secondSubject = useSelectorCalc('secondSubject')
     const score = useSelectorCalc('score')
     const dispatch = useDispatch()
-
+    const {currentLanguage} = useLocale()
 
     const setProfs = useCallback((profs) => {
         dispatch({type: 'tempProfs', value: profs})
     },[])
 
     useEffect(() => {
-        fetchGrantsHttp.getAllProfs().then(data => {
+        fetchGrantsHttp.getAllProfs(currentLanguage).then(data => {
             setProfs(data.data)
         })
     }, [])
@@ -30,22 +31,22 @@ export default function ({selectedBranch, setAllBranches}) {
     useEffect(()=> {
         const isSubjectsEmpty = firstSubject === null && secondSubject === null;
         if(isSubjectsEmpty && !!selectedBranch) {
-            fetchGrantsHttp.fetchProfsByBranches(selectedBranch, firstSubject, secondSubject).then(data => {
+            fetchGrantsHttp.fetchProfsByBranches(currentLanguage, selectedBranch, firstSubject, secondSubject).then(data => {
                 setProfs(data.data)
             })
         } else if(!isSubjectsEmpty && selectedBranch === null){
-            fetchGrantsHttp.fetchProfsBySubjects(firstSubject.short, secondSubject !== null ? secondSubject.short : null)
+            fetchGrantsHttp.fetchProfsBySubjects(currentLanguage, firstSubject.short, secondSubject !== null ? secondSubject.short : null)
                 .then(data => {
                     setProfs(data.data)
                 })
-            fetchGrantsHttp.fetchBranchesBySubjects(firstSubject, secondSubject).then(data => {
+            fetchGrantsHttp.fetchBranchesBySubjects(currentLanguage, firstSubject, secondSubject).then(data => {
                 setAllBranches(data.data)
             })
         } else if(!isSubjectsEmpty && !!selectedBranch) {
-            fetchGrantsHttp.fetchProfsByBranches(selectedBranch, firstSubject.short, secondSubject !== null ? secondSubject.short : null).then(data => {
+            fetchGrantsHttp.fetchProfsByBranches(currentLanguage, selectedBranch, firstSubject.short, secondSubject !== null ? secondSubject.short : null).then(data => {
                 setProfs(data.data)
             })
-            fetchGrantsHttp.fetchBranchesBySubjects(firstSubject, secondSubject).then(data => {
+            fetchGrantsHttp.fetchBranchesBySubjects(currentLanguage, firstSubject, secondSubject).then(data => {
                 setAllBranches(data.data)
             })
         }

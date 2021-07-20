@@ -27,6 +27,10 @@ export const fetchGrantsHttp = {
             firstSubject,
             secondSubject
         })
+    },
+    postNewUser(values) {
+        console.log(values)
+        return _axios.post('/postNewUser', values)
     }
 
 }

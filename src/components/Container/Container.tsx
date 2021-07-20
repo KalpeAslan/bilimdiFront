@@ -1,6 +1,7 @@
-import React, {createContext} from "react"
-import {makeStyles} from "@material-ui/core"
-
+import React from 'react'
+import {Box} from "@material-ui/core";
+import {makeStyles} from "@material-ui/core";
+import classNames from "classnames";
 const useStyles = makeStyles(theme => ({
     container: {
         width: '100%',
@@ -14,11 +15,10 @@ const useStyles = makeStyles(theme => ({
         padding: '0 24px'
     }
 }))
-export const ClassesContext = createContext({})
 
-export function ClassesProvider({children}) {
+export const Container: React.ReactChildren<React.ReactChildren> = ({children, className}) => {
     const classes = useStyles()
-    return <ClassesContext.Provider value={classes}>
+    return <Box className={classNames(classes.container, className)} >
         {children}
-    </ClassesContext.Provider>
+    </Box>
 }

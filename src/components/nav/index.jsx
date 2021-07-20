@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useCallback} from 'react'
 import {Link} from 'react-router-dom'
 import {
     makeStyles,
@@ -10,6 +10,7 @@ import {
 import {useScroll} from "../../hooks/useScroll"
 import {useGlobalClasses} from "../../hooks/useGlobalClasses"
 import classNames from "classnames"
+import {useLocale, useTranslate} from "../../hooks/useLocale"
 
 const useStyles = makeStyles((theme) => ({
     toolbar: {
@@ -23,6 +24,15 @@ export default function () {
     const classes = useStyles()
     const globalClasses = useGlobalClasses()
     const scrolledToTarget = useScroll(0)
+    const {currentLanguage, changeLanguage} = useLocale()
+    const handleClick = useCallback(() => {
+        console.log(currentLanguage)
+        if(currentLanguage === 'kz'){
+            return changeLanguage('ru')
+        }
+        changeLanguage('kz')
+    },[currentLanguage])
+
     return (
         <AppBar position="sticky" style={{
             marginBottom: 30,
@@ -32,6 +42,7 @@ export default function () {
                 '0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%)' :
                 'none',
             background: 'white',
+            color: 'black'
         }}>
             <Toolbar className={classNames(classes.toolbar, globalClasses.container)}>
                 <Link to='/'>
@@ -40,11 +51,14 @@ export default function () {
                     </Typography>
                 </Link>
                 <Box display='flex' justifyContent='space-between'>
-                    <Link to='/'>
+                    <Link to='/filter'>
                         <Typography variant="h5" style={{marginRight: 30, cursor:"pointer"}}>
-                            Найти грант
+                            {useTranslate('Найти грант')}
                         </Typography>
                     </Link>
+                    <Typography onClick={handleClick} variant='h5' style={{marginRight: 20, cursor: 'pointer'}}>
+                        {useTranslate('Сменить язык')}
+                    </Typography>
                     {/*<Link to='filter'>*/}
                     {/*    <Typography variant="h5" style={{cursor:"pointer"}}>*/}
                     {/*        Калькулятор*/}

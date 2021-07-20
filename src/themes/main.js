@@ -19,9 +19,11 @@ const theme = createMuiTheme({
     breakpoints: {
         keys: [
             'md',
+            'sm'
         ],
         values: {
             'md': 880,
+            'sm': 600
         }
     },
     typography: {
@@ -31,7 +33,6 @@ const theme = createMuiTheme({
             fontSize: '1.25rem',
         },
         subtitle1: {
-            color: '#333333',
             fontFamily: '"FuturaPT", "Roboto", "Helvetica", "Arial", sans-serif',
             fontSize: '1.25rem',
             fontWeight: 500,
@@ -42,15 +43,13 @@ const theme = createMuiTheme({
             fontWeight: 500,
         },
         h6: {
-            color: '#333333',
             fontFamily: '"FuturaPT", "Roboto", "Helvetica", "Arial", sans-serif',
         },
         h5: {
-            color: '#333333',
             fontFamily: '"FuturaPT", "Roboto", "Helvetica", "Arial", sans-serif',
+            fontSize: '1.5rem',
         },
         h4: {
-            color: '#333333',
             fontFamily: '"FuturaPT", "Roboto", "Helvetica", "Arial", sans-serif',
             fontSize: '2rem',
             fontWeight: 500,
@@ -58,14 +57,18 @@ const theme = createMuiTheme({
         h3: {
             fontFamily: '"FuturaPT", "Roboto", "Helvetica", "Arial", sans-serif',
             fontWeight: 500,
+            fontSize: '2.4rem'
+        },
+        h2: {
+            fontFamily: '"FuturaPT", "Roboto", "Helvetica", "Arial", sans-serif',
+            fontSize: '3.4rem',
+            fontWeight: 500,
         },
         body2: {
             fontFamily: '"FuturaPT", "Roboto", "Helvetica", "Arial", sans-serif',
-            color: '#333333',
         },
         body1: {
             fontFamily: '"FuturaPT", "Roboto", "Helvetica", "Arial", sans-serif',
-            color: '#333333',
             fontSize: '1.2rem'
         },
         caption: {
