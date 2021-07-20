@@ -353,11 +353,11 @@ export const Consultation: React.FC<React.ReactChildren> = ({children}) => {
             </Grid>
         </section>
         <Box bgcolor='#8ae1f2'>
-            <Box display='flex' flexWrap='wrap' justifyContent='space-between' alignItems='center'
+            <Box display='flex' flexWrap='wrap' justifyContent='center' alignItems='center'
                  className={globalClasses.container}>
                 <img src={timeImg} width={240} loading='lazy' alt="Cool Cat"/>
                 <Box display='flex' flexDirection='column' alignItems='center' position='relative'>
-                    <Typography variant='h4'>
+                    <Typography variant='h4' style={{textAlign: 'center'}}>
                         {useTranslate('Подбери себе ГРАНТ бесплатно на нашей платформе!')}
                     </Typography>
                     <Link to={'/filter'}>
@@ -365,13 +365,6 @@ export const Consultation: React.FC<React.ReactChildren> = ({children}) => {
                             {useTranslate('Подобрать грант')}
                         </Button>
                     </Link>
-                    <img src={starImg} alt="star" loading='lazy' className={classes.star} style={{top: 20, right: 60}}/>
-                    <img src={starImg} alt="star" loading='lazy' className={classes.star}
-                         style={{top: 100, right: 100}}/>
-                    <img src={starImg} alt="star" loading='lazy' className={classes.star}
-                         style={{right: '70%', bottom: 0}}/>
-                    <img src={starImg} alt="star" loading='lazy' className={classes.star}
-                         style={{left: 0, top: '40px'}}/>
                 </Box>
             </Box>
         </Box>
