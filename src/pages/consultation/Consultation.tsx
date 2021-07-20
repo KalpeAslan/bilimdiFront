@@ -28,6 +28,7 @@ import * as yup from 'yup'
 import Alert from '@material-ui/lab/Alert';
 import {AlertTitle} from "@material-ui/lab";
 import {fetchGrantsHttp} from "../../http/fetchGrantsHttp";
+import {Link} from 'react-router-dom'
 
 const useStyles = makeStyles(theme => ({
     section: {
@@ -244,6 +245,9 @@ export const Consultation: React.FC<React.ReactChildren> = ({children}) => {
         }
     ]
 
+    const handleFilterLinkClick = useCallback(() => {
+
+    }, [])
 
     const formik = useFormik({
         initialValues: {
@@ -356,9 +360,11 @@ export const Consultation: React.FC<React.ReactChildren> = ({children}) => {
                     <Typography variant='h4'>
                         {useTranslate('Подбери себе ГРАНТ бесплатно на нашей платформе!')}
                     </Typography>
-                    <Button variant="contained" color="primary" className={classes.button}>
-                        {useTranslate('Подобрать грант')}
-                    </Button>
+                    <Link to={'/filter'}>
+                        <Button variant="contained" color="primary"  className={classes.button}>
+                            {useTranslate('Подобрать грант')}
+                        </Button>
+                    </Link>
                     <img src={starImg} alt="star" loading='lazy' className={classes.star} style={{top: 20, right: 60}}/>
                     <img src={starImg} alt="star" loading='lazy' className={classes.star}
                          style={{top: 100, right: 100}}/>
