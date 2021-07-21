@@ -281,7 +281,7 @@ export const Consultation: React.FC<React.ReactChildren> = ({children}) => {
                 </span>
                 </Box>
                 <Box>
-                    <Typography variant='h2' children={useTranslate('Выберай правильное будущее!')}/>
+                    <Typography variant='h2' children={useTranslate('Выбирай правильное будущее!')}/>
                     <Typography variant='subtitle1'
                                 children={useTranslate('Образовательная платформа для казахстанских абитуриентов')}/>
                     <Box mt={5}>
