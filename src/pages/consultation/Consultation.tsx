@@ -168,8 +168,8 @@ export const Consultation: React.FC<React.ReactChildren> = ({children}) => {
             imgName: statisticsImg
         },
         {
-            title: useTranslate('Детальный разбор вашей ситуации'),
-            subtitle: useTranslate('Индивидуальный подход, который поможет вам выработать стратегию для успешного поступления'),
+            title: useTranslate('Сопровождение при подачи заявления через EGOV'),
+            subtitle: useTranslate('Наши консультанты помогут разобраться и полностью сопроводят вас при подачи заявления на грант через Egov'),
             imgName: readImg
         }
     ]
@@ -358,7 +358,7 @@ export const Consultation: React.FC<React.ReactChildren> = ({children}) => {
                 <img src={timeImg} width={240} loading='lazy' alt="Cool Cat"/>
                 <Box display='flex' flexDirection='column' alignItems='center' position='relative'>
                     <Typography variant='h4' style={{textAlign: 'center'}}>
-                        {useTranslate('Подбери себе ГРАНТ бесплатно на нашей платформе!')}
+                        {useTranslate('Проверь свои шансы получения гранта на нашей платформе!')}
                     </Typography>
                     <Link to={'/filter'}>
                         <Button variant="contained" color="primary"  className={classes.button}>
@@ -372,9 +372,9 @@ export const Consultation: React.FC<React.ReactChildren> = ({children}) => {
             <Typography variant={'h3'} children={useTranslate('Успей подать заявку до 24 июля и получи скидку в 50%!')}
                         style={{margin: '40px 0', textAlign: 'center', padding: 20}}/>
             <form onSubmit={formik.handleSubmit} className={classes.form}>
-                <Typography variant={'subtitle1'} children={useTranslate('Поможем в выборе!')}/>
+                <Typography variant={'subtitle1'} children={useTranslate('Запишись на консультацию!')}/>
                 <Typography variant={'subtitle2'}>
-                    {useTranslate('Если у вас есть вопросы о формате или вы не знаете что выбрать, оставьте свой номер: мы позвоним, чтобы ответить на все ваши вопросы.')}
+                    {useTranslate('Хочешь правильно подать на гос. грант, тогда скорее регистрируйся!')}
                 </Typography>
                 {inputForms.map(inputForm => {
                     return <TextField id={inputForm.id}
