@@ -102,7 +102,7 @@ const useStyles = makeStyles(theme => ({
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        margin: '30px 0'
+        margin: '30px'
     },
     imgWrapper: {
         width: 500,
