@@ -23,7 +23,7 @@ export default function ({selectedBranch, setAllBranches}) {
     },[])
 
     useEffect(() => {
-        fetchGrantsHttp.getAllProfs(currentLanguage).then(data => {
+        fetchGrantsHttp.getAllProfs().then(data => {
             setProfs(data.data)
         })
     }, [])
@@ -31,22 +31,22 @@ export default function ({selectedBranch, setAllBranches}) {
     useEffect(()=> {
         const isSubjectsEmpty = firstSubject === null && secondSubject === null;
         if(isSubjectsEmpty && !!selectedBranch) {
-            fetchGrantsHttp.fetchProfsByBranches(currentLanguage, selectedBranch, firstSubject, secondSubject).then(data => {
+            fetchGrantsHttp.fetchProfsByBranches(selectedBranch, firstSubject, secondSubject).then(data => {
                 setProfs(data.data)
             })
         } else if(!isSubjectsEmpty && selectedBranch === null){
-            fetchGrantsHttp.fetchProfsBySubjects(currentLanguage, firstSubject.short, secondSubject !== null ? secondSubject.short : null)
+            fetchGrantsHttp.fetchProfsBySubjects(firstSubject.short, secondSubject !== null ? secondSubject.short : null)
                 .then(data => {
                     setProfs(data.data)
                 })
-            fetchGrantsHttp.fetchBranchesBySubjects(currentLanguage, firstSubject, secondSubject).then(data => {
+            fetchGrantsHttp.fetchBranchesBySubjects(firstSubject, secondSubject).then(data => {
                 setAllBranches(data.data)
             })
         } else if(!isSubjectsEmpty && !!selectedBranch) {
-            fetchGrantsHttp.fetchProfsByBranches(currentLanguage, selectedBranch, firstSubject.short, secondSubject !== null ? secondSubject.short : null).then(data => {
+            fetchGrantsHttp.fetchProfsByBranches(selectedBranch, firstSubject.short, secondSubject !== null ? secondSubject.short : null).then(data => {
                 setProfs(data.data)
             })
-            fetchGrantsHttp.fetchBranchesBySubjects(currentLanguage, firstSubject, secondSubject).then(data => {
+            fetchGrantsHttp.fetchBranchesBySubjects(firstSubject, secondSubject).then(data => {
                 setAllBranches(data.data)
             })
         }
