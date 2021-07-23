@@ -269,7 +269,7 @@ export const Consultation: React.FC<React.ReactChildren> = ({children}) => {
             <section className={classes.section}>
                 <Box display='flex' justifyContent='flex-end'>
                 <span className={classes.discount}>
-                    {useTranslate('Получи скидку в 50% до 24 июля!')}
+                    {useTranslate('Получи скидку в 50% до 25 июля!')}
                 </span>
                 </Box>
                 <Box>
@@ -361,7 +361,7 @@ export const Consultation: React.FC<React.ReactChildren> = ({children}) => {
             </Box>
         </Box>
         <section className={classes.formContainer}>
-            <Typography variant={'h3'} children={useTranslate('Успей подать заявку до 24 июля и получи скидку в 50%!')}
+            <Typography variant={'h3'} children={useTranslate('Успей подать заявку до 25 июля и получи скидку в 50%!')}
                         style={{margin: '40px 0', textAlign: 'center', padding: 20}}/>
             <form onSubmit={formik.handleSubmit} className={classes.form}>
                 <Typography variant={'subtitle1'} children={useTranslate('Запишись на консультацию!')}/>
