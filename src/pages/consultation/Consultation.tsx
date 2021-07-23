@@ -224,25 +224,17 @@ export const Consultation: React.FC<React.ReactChildren> = ({children}) => {
 
     const trust = [
         {
-            text: useTranslate('Более 1 года занимаемся вопросами поступления в КЗ вузы'),
-            icon: <HourglassEmpty/>
-        },
-        {
-            text: useTranslate('Мы эксперты в сфере образования, с большим опытом работы в образовательной сфере'),
+            text: useTranslate('Мы эксперты в сфере образования, с большим опытом работы в вопросах поступления'),
             icon: <Timeline/>
         },
         {
-            text: useTranslate('Более 1000 консультаций о поступлении для выпускников'),
+            text: useTranslate('Мы проконсультировали более 1000 абитурентов по разным вопросам поступления'),
             icon: <People/>
         },
         {
-            text: useTranslate('Наша миссия увеличить число поступающих в ВУЗы осознанно, владея необходимой информацией.'),
+            text: useTranslate('100% абитуриентов, которые обратились к нам за помощью получили гос. грант'),
             icon: <AccountBalance/>
         },
-        {
-            text: useTranslate('У нас имеется статистика, нужные данные и другие источники, которые помогают нам успешно прогнозировать шансы абитуриентов на получения гранта'),
-            icon: <Equalizer/>
-        }
     ]
 
     const handleFilterLinkClick = useCallback(() => {
