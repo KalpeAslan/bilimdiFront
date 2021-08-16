@@ -1,20 +1,18 @@
 import ReactDom from 'react-dom'
 import React from "react"
-import {Route, BrowserRouter ,HashRouter } from 'react-router-dom'
-import Calc from 'pages/calc/index.jsx'
-import {Box, CssBaseline} from "@material-ui/core"
+import {Route ,HashRouter } from 'react-router-dom'
+import {CssBaseline} from "@material-ui/core"
 import {Provider} from "react-redux"
 import store from 'store/index'
 import {ThemeProvider} from "@material-ui/core"
 import {ClassesProvider} from "./contexts/ClassesProvider"
 import {LocaleProvider} from "./contexts/LocaleProvider"
 import theme from "./themes/main"
-import Filter from 'pages/filter'
+import {Filter} from "./pages/filter/Filter"
 import {Skeleton} from "@material-ui/lab"
 import {Consultation} from "./pages/consultation/Consultation"
 
 const Nav = React.lazy(() => import('cpm/nav'))
-const BottomBanner = React.lazy(() => import('cpm/bottomBanner'))
 
 
 function App() {
@@ -33,6 +31,9 @@ function App() {
                         <Route exact path='/filter'>
                             <Filter/>
                         </Route>
+                        {/*<Route exact path='/filter'>*/}
+                        {/*    <Filter/>*/}
+                        {/*</Route>*/}
                         <React.Suspense fallback={<Skeleton width='100%' height={70}></Skeleton>}>
                             {/*<BottomBanner/>*/}
                         </React.Suspense>

@@ -29,7 +29,7 @@ const {fetchBranchesBySubjects,fetchProfsBySubjects, fetchProfsByBranches} = fet
 
 const FilterReducer = (state = defaultStore, action: any) => {
     const {currentArea, firstSubject, secondSubject} = state
-    switch (action.value) {
+    switch (action.type) {
         case 'profsByBranches':
             fetchProfsByBranches(currentArea, firstSubject.short, secondSubject.short)
                 .then(data => ({...state, profs: data.data}))

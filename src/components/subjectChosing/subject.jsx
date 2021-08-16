@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react"
+import React, {useCallback, useEffect, useState} from "react"
 import SubjectItem from './subjectItem.jsx'
 import {List, makeStyles, Box, Typography, IconButton, useMediaQuery, useTheme} from "@material-ui/core"
 import ModalFade from 'cpm/modalFade'
@@ -61,7 +61,7 @@ export default function ({openModal, setOpenModal}) {
     const firstSubject = useSelector(state => state.calc.firstSubject)
     const secondSubject = useSelector(state => state.calc.secondSubject)
     const theme = useTheme()
-    const isMd = useMediaQuery(theme.breakpoints.down('md'))
+    const isMd = useMediaQuery(theme.breakpoints.down('sm'))
     const [translateX, setTranslateX] = useState(0)
     const selectedSubjectIndexToChange = useSelector(state => state.calc.selectedSubjectIndexToChange)
 
@@ -81,23 +81,23 @@ export default function ({openModal, setOpenModal}) {
             dispatch({type: 'secondSubject', value: null})
         }
         if (isMd) return setTranslateX(maxWidthVw)
-        setTranslateX(500)
+        setTranslateX(500 + 'px')
     }
 
-    const clickSecondSubject = (subject) => {
+    const clickSecondSubject = useCallback((subject) => {
         setOpenModal(false)
         dispatch({type: 'secondSubject', value: subject})
-    }
+    }, [])
 
-    const clickBackButton = () => {
+    const clickBackButton = useCallback(() => {
         setTranslateX(0)
-    }
+    }, [])
 
 
     return <ModalFade setOpenModal={setOpenModal} openModal={openModal}>
         <Box display="flex" className={classes.wrapper}>
             <Box display="flex" flexDirection="column"
-                 style={{transition: 'transform 0.4s', transform: `translateX(-${translateX}px)`}}>
+                 style={{transition: 'transform 0.4s', transform: `translateX(-${translateX})`}}>
                 <Typography variant="h5" className={classes.modalTitle}>
                     Выбери первый предмет
                 </Typography>
@@ -109,7 +109,7 @@ export default function ({openModal, setOpenModal}) {
                 </List>
             </Box>
             <Box display="flex" flexDirection="column"
-                 style={{transition: 'transform 0.4s', transform: `translateX(-${translateX}px)`}}>
+                 style={{transition: 'transform 0.4s', transform: `translateX(-${translateX})`}}>
                 <Box>
                     <IconButton onClick={clickBackButton} style={{float: 'left'}}>
                         <ArrowBackIos/>

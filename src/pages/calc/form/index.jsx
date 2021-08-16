@@ -8,6 +8,7 @@ import {useSelectorCalc} from "hooks/useSelector"
 import classNames from "classnames"
 import {Alert, AlertTitle} from "@material-ui/lab"
 import {Redirect} from 'react-router-dom'
+import {useTranslate} from "../../../hooks/useLocale"
 
 const formWidth = '100%'
 
@@ -121,7 +122,7 @@ export default function () {
                 if (selectedArea.every(area => area === null)) {
                     setAlertForm({
                         title: `Выберите хотя бы 1 ${isBranch ? 'область' : 'специальность'}`,
-                        desc: `Для получения гранта на ЕНТ, вам необходимо набрать от 50 баллов`
+                        desc: useTranslate('Для получения гранта на ЕНТ, вам необходимо набрать от 50 баллов')
                     })
                     return setIsShowAlert(true)
                 }

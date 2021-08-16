@@ -10,7 +10,7 @@ export const fetchGrantsHttp = {
     getAllBranches: (): Promise<any> => _axios.get('/getBranches'),
 
     fetchProfsBySubjects: (firstSubject: string, secondSubject: string | null): Promise<any> => {
-        return _axios.post('/fetchProfsBySubjects', {
+        return _axios.post(' /fetchProfsBySubjects', {
             firstSubject,
             secondSubject
         })
@@ -29,7 +29,6 @@ export const fetchGrantsHttp = {
         })
     },
     postNewUser(values) {
-        console.log(values)
         return _axios.post('/postNewUser', values)
     }
 

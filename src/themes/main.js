@@ -18,12 +18,16 @@ const theme = createMuiTheme({
     },
     breakpoints: {
         keys: [
+            'sm',
             'md',
-            'sm'
+            "lg",
+            "xl"
         ],
         values: {
-            'md': 880,
-            'sm': 600
+            sm: 600,
+            md: 880,
+            lg: 1280,
+            xl: 1920,
         }
     },
     typography: {
@@ -91,6 +95,14 @@ const theme = createMuiTheme({
                 },
             },
         },
+       MuiList: {
+            '&:hover': {
+                background: 'red'
+            },
+           '.Mui-selected': {
+                background: 'blue'
+           }
+       }
     }
 }, ruRU)
 

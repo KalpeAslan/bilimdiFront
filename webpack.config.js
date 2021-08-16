@@ -30,7 +30,7 @@ const getPath = (pathElem) => path.join(__dirname , '/src/',pathElem)
 
 
 module.exports = {
-    mode: 'development',
+    mode: isDev ? 'development' : 'production',
     entry: {
         main: ['@babel/polyfill', path.resolve(__dirname, 'src', 'index.jsx')],
     },
@@ -48,7 +48,7 @@ module.exports = {
         }),
         new CleanWebpackPlugin(),
         new Dotenv({
-            path:path.resolve(__dirname,'.env')
+            path:path.resolve(__dirname,isDev ? '.env.dev' : '.env.prod')
         }),
     ],
     module: {

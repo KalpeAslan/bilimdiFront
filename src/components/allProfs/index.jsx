@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react'
+import React, {useEffect, useMemo, useState} from 'react'
 import calc from 'services/calc'
 import ProfCard from 'cpm/card'
 import axios from "axios"
@@ -6,7 +6,10 @@ import {useSelectorCalc} from "hooks/useSelector"
 import {useDispatch} from "react-redux"
 import {Box, Grid, Typography} from "@material-ui/core"
 import {Skeleton} from "@material-ui/lab"
-export default function ({selectedBranch}) {
+import {fetchGrantsHttp} from "../../services/grants/grantsService"
+
+
+export function AllProfs({selectedBranch}) {
     const [profsStoreType, setProfsStoreType] = useState('allProfs')
     const [allProfs, setAllProfs] = useState({})
     const allFilteredProfs = useSelectorCalc('allFilteredProfs')
@@ -60,7 +63,8 @@ export default function ({selectedBranch}) {
 
     const [filteredBySelectedBranch, setFilteredBySelectedBranch] = useState([])
     useEffect(async () => {
-        const res = await axios.get(`${process.env.API_URL}/getAll`).then(data => data.data)
+        const res = await fetchGrantsHttp.getAllProfs().then(data => data)
+        console.log(res)
         setFilteredBySelectedBranch(calc.getProfsBySelectedBranch(res, selectedBranch))
     }, [selectedBranch])
 
@@ -74,7 +78,6 @@ export default function ({selectedBranch}) {
             const view = Object.entries(arr).map(([subject, values]) => {
                 return values.map((value, i) => {
                     profsCountStart = profsCountStart +1
-                    console.log(profsCountStart)
                     const cardBody = <>
                         <Typography variant="h6">
                             Специальность: {value.name}
@@ -115,7 +118,6 @@ export default function ({selectedBranch}) {
             if (profsStoreType !== 'bySelectedBranch') return resultBySubject(profs())
             const view =  filteredBySelectedBranch.map((prof, i) => {
                 profsCountStart++
-                console.log(profsCountStart)
                 const cardBody = <>
                     <Typography variant="h6">
                         Специальность: {prof.name}

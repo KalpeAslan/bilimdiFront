@@ -1,13 +1,13 @@
 import React, {useCallback, useEffect, useMemo, useState, Suspense} from 'react'
-import calc from 'services/calc'
 import {useSelectorCalc} from "hooks/useSelector"
 import {useDispatch} from "react-redux"
 import {Box, Grid, Typography} from "@material-ui/core"
 import {Skeleton} from "@material-ui/lab"
 
-const ProfCard = React.lazy(() => import('cpm/card'))
-import {fetchGrantsHttp} from "../../http/fetchGrantsHttp"
+import {fetchGrantsHttp} from "../../services/grants/grantsService"
 import {useLocale} from "../../hooks/useLocale"
+const Locale = React.lazy(() => import('cpm/locale'))
+const ProfCard = React.lazy(() => import('cpm/card'))
 
 export default function ({selectedBranch, setAllBranches}) {
     const profs = useSelectorCalc('tempProfs')
@@ -20,37 +20,38 @@ export default function ({selectedBranch, setAllBranches}) {
 
     const setProfs = useCallback((profs) => {
         dispatch({type: 'tempProfs', value: profs})
-    },[])
+    }, [])
 
     useEffect(() => {
         fetchGrantsHttp.getAllProfs().then(data => {
-            setProfs(data.data)
+            setProfs(data)
         })
-    }, [])
+    }, [currentLanguage])
 
-    useEffect(()=> {
-        const isSubjectsEmpty = firstSubject === null && secondSubject === null;
-        if(isSubjectsEmpty && !!selectedBranch) {
+    useEffect(() => {
+        const isSubjectsEmpty = firstSubject === null && secondSubject === null
+        if (isSubjectsEmpty && !!selectedBranch) {
             fetchGrantsHttp.fetchProfsByBranches(selectedBranch, firstSubject, secondSubject).then(data => {
-                setProfs(data.data)
+                setProfs(data)
             })
-        } else if(!isSubjectsEmpty && selectedBranch === null){
+        } else if (!isSubjectsEmpty && selectedBranch === null) {
             fetchGrantsHttp.fetchProfsBySubjects(firstSubject.short, secondSubject !== null ? secondSubject.short : null)
                 .then(data => {
-                    setProfs(data.data)
+                    setProfs(data)
                 })
             fetchGrantsHttp.fetchBranchesBySubjects(firstSubject, secondSubject).then(data => {
-                setAllBranches(data.data)
+                setAllBranches(data)
             })
-        } else if(!isSubjectsEmpty && !!selectedBranch) {
-            fetchGrantsHttp.fetchProfsByBranches(selectedBranch, firstSubject.short, secondSubject !== null ? secondSubject.short : null).then(data => {
-                setProfs(data.data)
-            })
+        } else if (!isSubjectsEmpty && !!selectedBranch) {
+            fetchGrantsHttp.fetchProfsByBranches(selectedBranch, firstSubject.short, secondSubject !== null ? secondSubject.short : null)
+                .then(data => {
+                    setProfs(data)
+                })
             fetchGrantsHttp.fetchBranchesBySubjects(firstSubject, secondSubject).then(data => {
-                setAllBranches(data.data)
+                setAllBranches(data)
             })
         }
-    },[selectedBranch, firstSubject, secondSubject])
+    }, [selectedBranch, firstSubject, secondSubject])
 
 
     const GridProfCards = useCallback((cardBody, key) => {
@@ -63,18 +64,18 @@ export default function ({selectedBranch, setAllBranches}) {
 
     const profsByState = useMemo(() => {
         let profsCount = 0
-        const profsCards = profs.map((prof,i) => {
-            if(prof.hasOwnProperty('min') && score && score < +prof.min.trim()) return null
+        const profsCards = profs.map((prof, i) => {
+            if (prof.hasOwnProperty('min') && score && score < +prof.min.trim()) return null
             profsCount++
             const cardBody = <>
                 <Typography variant="h6">
-                    Специальность: {prof.name}
+                    <Locale str={'Специальность'}/>: {prof.name}
                 </Typography>
                 <Typography>
-                    Предмет: {prof.subjects}
+                    <Locale str={'Предмет'}/>: {prof.subjects}
                 </Typography>
                 <Typography>
-                    минимальный балл:
+                    <Locale str={'минимальный балл'}/>:
                     {prof.min}
                 </Typography>
             </>

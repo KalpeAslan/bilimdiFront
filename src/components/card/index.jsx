@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-export default function ({click, children, style}) {
+export default function ProfCard ({click, children, style}) {
     const classes = useStyles()
     return (
         <Card className={classes.root} variant="outlined" onClick={click} style={style}>
