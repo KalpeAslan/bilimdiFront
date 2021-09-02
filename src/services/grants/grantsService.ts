@@ -1,7 +1,8 @@
-import {HttpService} from "../http/httpService";
+import { IHttpService } from './../http/httpService';
+import {httpService} from "../http/httpService";
 
 class GrantsService {
-    constructor(private httpService: HttpService) {
+    constructor(private httpService: IHttpService) {
     }
 
     getAllProfs(): Promise<any> {
@@ -40,4 +41,6 @@ class GrantsService {
     }
 }
 
-export const fetchGrantsHttp = new GrantsService(new HttpService())
+export const fetchGrantsHttp = new GrantsService(httpService)
+export type IGrantsService = typeof fetchGrantsHttp;
+

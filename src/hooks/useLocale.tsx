@@ -1,7 +1,9 @@
 import React, {useContext} from 'react'
 import {LocaleContext} from "../contexts/LocaleProvider";
 
-export const useLocale = () => {
+type TLocaleContext = typeof LocaleContext
+
+export const useLocale = (): TLocaleContext => {
     return useContext(LocaleContext)
 }
 

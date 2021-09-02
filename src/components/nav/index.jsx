@@ -91,8 +91,8 @@ export default function Nav() {
         >
             <List>
                 {navItems.map(({name, link}, index) => (
-                    <Link to={link}>
-                        <ListItem button key={name + index}>
+                    <Link to={link} key={name + index}>
+                        <ListItem button>
                             <ListItemIcon>
                                 {index % 2 === 0 ? <SearchIcon/> : <InfoIcon/>}
                             </ListItemIcon>

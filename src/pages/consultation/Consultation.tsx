@@ -221,8 +221,12 @@ export const Consultation: React.FC<React.ReactChildren> = ({children}) => {
         setCurrentProfitSectionIndex(translateX => translateX - 1)
     }, [currentProfitSectionIndex])
 
+    type TtrustItem = {
+        text: string,
+        icon: any
+    }
 
-    const trust = [
+    const trust: TtrustItem[] = [
         {
             text: useTranslate('Мы эксперты в сфере образования, с большим опытом работы в вопросах поступления'),
             icon: <Timeline/>
@@ -334,13 +338,13 @@ export const Consultation: React.FC<React.ReactChildren> = ({children}) => {
                 {useTranslate('Почему мы?')}
             </Typography>
             <Grid container style={{padding: '0 60px'}} alignItems={'center'} justify={'center'}>
-                {trust.map(trustItem => {
-                    return <Grid item md={4} xs={3} className={classes.trustItem}>
-                        <Icon>
-                            {trustItem.icon}
-                        </Icon>
-                        <Typography variant={'subtitle1'} children={trustItem.text}/>
-                    </Grid>
+                {trust.map((trustItem: TtrustItem) => {
+                    return <Grid item md={4} xs={3} className={classes.trustItem} key={trustItem.text}>
+                    <Icon>
+                        {trustItem.icon}
+                    </Icon>
+                    <Typography variant={'subtitle1'} children={trustItem.text}/>
+                </Grid>
                 })}
             </Grid>
         </section>

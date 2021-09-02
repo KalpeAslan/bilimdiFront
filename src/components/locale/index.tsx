@@ -1,13 +1,13 @@
 import React from 'react'
-import {useLocale} from "../../hooks/useLocale";
+import { useLocale } from "../../hooks/useLocale";
 
-interface Locale{
+interface ILocale {
     str: string,
     children: React.ReactNode
 }
 
-export default React.memo(({str, children}): React.FC<Locale> => {
+export default React.memo(({ str, children }): React.FC<ILocale> => {
     const s = children ?? str
-    const {translate} = useLocale()
+    const { translate } = useLocale()
     return <>{translate(s)}</>
 })
